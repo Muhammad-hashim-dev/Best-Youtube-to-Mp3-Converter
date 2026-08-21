@@ -1,0 +1,369 @@
+/* ==========================================================================
+   GLOBAL VARIABLES & BASE LAYOUT RESET
+   ========================================================================== */
+:root {
+  --bg-main: #f9f8f4;
+  --bg-card: #ffffff;
+  --accent-teal: #007074;
+  --text-primary: #111111;
+  --text-muted: #666666;
+  --border-color: #e5e5e0;
+}
+
+body {
+  margin: 0;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  background-color: var(--bg-main);
+  color: var(--text-primary);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  overflow-x: hidden;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* Lucide React Loading Spin Animation Effect */
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
+
+/* ==========================================================================
+   TRUSTED BY SECTION — INFINITE SCROLLING MARQUEE EFFECT
+   ========================================================================== */
+@keyframes scrollMarquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-33.33%); }
+}
+
+/* Hover effect for Company Cards in slider track */
+div[style*="marqueeTrack"] a:hover {
+  transform: translateY(-4px) !important;
+  border-color: rgba(0, 112, 116, 0.3) !important;
+}
+
+/* ==========================================================================
+   100% PERFECT MOBILE & TABLET RESPONSIVENESS PATCH (0% LOGIC TOUCHED)
+   ========================================================================== */
+@media (max-width: 768px) {
+  
+  /* 1. Main viewport padding compression */
+  div[style*="appWrapper"] {
+    padding: 100px 12px 30px 12px !important;
+    overflow-x: hidden !important;
+  }
+
+  /* 2. Top Navigation header column settings */
+  header[style*="navBar"] {
+    flex-direction: row !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    padding: 15px 20px !important;
+    background-color: var(--bg-card) !important;
+    border-bottom: 1px solid var(--border-color) !important;
+  }
+
+  /* 3. Mobile carousel style horizontal navigation links layout */
+  nav[style*="navLinks"] {
+    display: flex !important;
+    gap: 4px !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    overflow-x: auto !important; 
+    padding-bottom: 4px !important;
+    max-width: 65% !important;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Hide scrollbars for cleaner header UI link bar */
+  nav[style*="navLinks"]::-webkit-scrollbar {
+    display: none;
+  }
+
+  nav[style*="navLinks"] button {
+    font-size: 0.75rem !important;
+    padding: 4px 8px !important;
+    white-space: nowrap !important;
+    background-color: #f5f4ee !important;
+    border-radius: 8px !important;
+  }
+
+  /* Hide extra navbar button on phone layouts */
+  header[style*="navBar"] > button[style*="navBtn"] {
+    display: none !important;
+  }
+
+  /* 4. Core split layout grid system forced to single column */
+  main[style*="splitLayout"] {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 30px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  /* 5. Left description text centering rules */
+  div[style*="textColumn"] {
+    padding-right: 0 !important;
+    text-align: center !important;
+    align-items: center !important;
+    width: 100% !important;
+  }
+
+  div[style*="textColumn"] h2 {
+    font-size: 1.85rem !important;
+    line-height: 1.2 !important;
+  }
+
+  div[style*="textColumn"] p {
+    font-size: 0.9rem !important;
+    padding: 0 10px !important;
+  }
+
+  div[style*="textColumn"] ul {
+    font-size: 0.82rem !important;
+    align-self: center !important;
+  }
+
+  /* 6. CONVERTER CARD MOBILE SIZE FIX (100% Full Fluid Available Width) */
+  div[style*="cardColumn"] {
+    width: 100% !important;
+    max-width: 100% !important;
+    padding: 0 !important;
+    box-sizing: border-box !important;
+  }
+
+  div[style*="interfaceCard"], div[style*="card"] {
+    width: 100% !important;
+    max-width: 100% !important;
+    padding: 24px 16px !important;
+    border-radius: 16px !important;
+    box-sizing: border-box !important;
+  }
+
+  /* Core inline layout form rows stack setup overrides */
+  div[style*="rowLayout"], form > div {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 16px !important;
+    width: 100% !important;
+  }
+
+  div[style*="inputWrapper"], 
+  div[style*="dropdownWrapper"], 
+  label[style*="checkboxContainer"] {
+    width: 100% !important;
+    min-width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  /* Input fields padding fixes to stay inside the white card */
+  div[style*="inputContainer"] input {
+    padding: 14px 75px 14px 12px !important;
+    font-size: 0.88rem !important;
+  }
+
+  /* Dropdown selections and button structures scaling */
+  select[style*="selectMenu"], select {
+    padding: 12px !important;
+    font-size: 0.88rem !important;
+    border-radius: 10px !important;
+  }
+
+  button[style*="submitBtn"], button[style*="actionBtn"] {
+    width: 100% !important;
+    height: 48px !important;
+    border-radius: 24px !important;
+    font-size: 0.95rem !important;
+  }
+
+  label[style*="checkboxContainer"] {
+    padding: 12px !important;
+    border-radius: 12px !important;
+  }
+}
+
+
+
+/* =========================================
+   RESPONSIVE MOBILE NAVBAR
+   ========================================= */
+
+/* Hamburger hidden on desktop */
+.mobileMenuBtn {
+  display: none;
+}
+
+/* Mobile dropdown hidden by default */
+.mobileNav {
+  display: none;
+}
+
+
+/* =========================================
+   TABLET + MOBILE
+   ========================================= */
+
+@media (max-width: 768px) {
+
+  /* Hide desktop links */
+  .desktopNav {
+    display: none !important;
+  }
+
+  /* Hide desktop Convert button */
+  .desktopConvertBtn {
+    display: none !important;
+  }
+
+  /* Show hamburger */
+  .mobileMenuBtn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 42px;
+    height: 42px;
+
+    background: transparent;
+    border: none;
+
+    color: var(--text-primary);
+    font-size: 27px;
+    cursor: pointer;
+
+    border-radius: 10px;
+  }
+
+  .mobileMenuBtn:hover {
+    background: #f3f5f5;
+  }
+
+  /* Mobile navbar */
+  header {
+    padding: 18px 20px !important;
+  }
+
+  /* Mobile dropdown */
+  .mobileNav {
+    display: flex;
+
+    position: absolute;
+    top: 100%;
+    left: 15px;
+    right: 15px;
+
+    flex-direction: column;
+    gap: 5px;
+
+    padding: 12px;
+
+    background: white;
+
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
+
+    z-index: 9999;
+  }
+
+  /* Mobile menu buttons */
+  .mobileNav button {
+    width: 100%;
+
+    padding: 13px 15px;
+
+    border: none;
+    background: transparent;
+
+    color: var(--text-muted);
+
+    text-align: left;
+
+    font-size: 15px;
+    font-weight: 500;
+
+    border-radius: 10px;
+
+    cursor: pointer;
+  }
+
+  .mobileNav button:hover {
+    background: #eef5f5;
+    color: #007074;
+  }
+
+  /* Active mobile link */
+  .mobileNav .mobileActiveLink {
+    background: #eef5f5;
+    color: #007074;
+    font-weight: 700;
+  }
+
+  /* Mobile Convert button */
+  .mobileNav .mobileConvertBtn {
+    margin-top: 5px;
+
+    background: #007074;
+    color: white;
+
+    text-align: center;
+    font-weight: 700;
+  }
+
+  .mobileNav .mobileConvertBtn:hover {
+    background: #005c60;
+    color: white;
+  }
+
+  /* Main content mobile spacing */
+  .splitLayout {
+    grid-template-columns: 1fr !important;
+    gap: 35px !important;
+  }
+
+}
+
+
+/* =========================================
+   SMALL PHONES
+   ========================================= */
+
+@media (max-width: 480px) {
+
+  header {
+    padding: 16px 15px !important;
+  }
+
+  .logoText {
+    font-size: 1.1rem !important;
+  }
+
+  .logoIcon {
+    font-size: 1.1rem !important;
+  }
+
+  .mobileMenuBtn {
+    width: 40px;
+    height: 40px;
+    font-size: 25px;
+  }
+
+  .mobileNav {
+    left: 10px;
+    right: 10px;
+  }
+
+  .mainTitle {
+    font-size: 2.3rem !important;
+  }
+}
