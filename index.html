@@ -2,20 +2,111 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <!-- Responsive layout viewport shield -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    
-    <!-- Public Folder Favicon Route Mapping (Strictly targeting your file extension) -->
-    <link rel="icon" type="image/png" href="/favicon.png" />
-    
-    <!-- Professional Web Portal Title Tag -->
-    <title>YTMP3 — Free YouTube to MP3 Converter</title>
+
+    <!-- Responsive -->
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0"
+    />
+
+    <!-- Favicon -->
+    <link
+      rel="icon"
+      type="image/png"
+      href="/favicon.png"
+    />
+
+    <!-- SEO Title -->
+    <title>
+      YouTube to MP3 Converter – Free, Fast & Ad-Free Online
+    </title>
+
+    <!-- SEO Description -->
+    <meta
+      name="description"
+      content="ClearAudio is a fast, simple and ad-free YouTube to MP3 converter. Convert supported YouTube videos to high-quality MP3 audio online."
+    />
+
+    <!-- Search Engine Instructions -->
+    <meta
+      name="robots"
+      content="index, follow"
+    />
+
+    <!-- Canonical -->
+    <!-- IMPORTANT: Replace YOUR-DOMAIN.com after deployment -->
+    <link
+      rel="canonical"
+      href="https://YOUR-DOMAIN.com/"
+    />
+
+    <!-- Open Graph -->
+    <meta
+      property="og:title"
+      content="YouTube to MP3 Converter – ClearAudio"
+    />
+
+    <meta
+      property="og:description"
+      content="Fast, simple and ad-free YouTube to MP3 conversion online."
+    />
+
+    <meta
+      property="og:type"
+      content="website"
+    />
+
+    <meta
+      property="og:url"
+      content="https://YOUR-DOMAIN.com/"
+    />
+
+    <meta
+      property="og:site_name"
+      content="ClearAudio"
+    />
+
+    <!-- Twitter / Social Preview -->
+    <meta
+      name="twitter:card"
+      content="summary"
+    />
+
+    <meta
+      name="twitter:title"
+      content="YouTube to MP3 Converter – ClearAudio"
+    />
+
+    <meta
+      name="twitter:description"
+      content="Fast, simple and ad-free YouTube to MP3 conversion online."
+    />
+
+    <!-- Schema.org -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "ClearAudio",
+        "url": "https://YOUR-DOMAIN.com/",
+        "description": "ClearAudio is a fast, simple and ad-free YouTube to MP3 converter.",
+        "applicationCategory": "MultimediaApplication",
+        "operatingSystem": "Web",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        }
+      }
+    </script>
   </head>
+
   <body>
-    <!-- React DOM mounting structural target node -->
     <div id="root"></div>
-    
-    <!-- Vite application bundle loader pipeline module entry path -->
-    <script type="module" src="/src/main.jsx"></script>
+
+    <script
+      type="module"
+      src="/src/main.jsx"
+    ></script>
   </body>
 </html>

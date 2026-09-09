@@ -1,166 +1,115 @@
-<div align="center">
+# ClearAudio
 
-# 🎵 YouTube to MP3 Converter
+A modern, fast, and responsive YouTube-to-MP3 converter built with React and Vite. ClearAudio provides a clean user experience for converting supported YouTube content into MP3 audio.
 
-### Convert YouTube videos into MP3 audio with a modern React interface.
-
-<p>
-  <img src="https://img.shields.io/badge/React-18+-61DAFB?style=for-the-badge&logo=react&logoColor=black" alt="React" />
-  <img src="https://img.shields.io/badge/Vite-Fast%20Build-646CFF?style=for-the-badge&logo=vite&logoColor=white" alt="Vite" />
-  <img src="https://img.shields.io/badge/JavaScript-ES6+-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black" alt="JavaScript" />
-  <img src="https://img.shields.io/badge/API-Integration-FF6B6B?style=for-the-badge&logo=api&logoColor=white" alt="API" />
-  <img src="https://img.shields.io/badge/CSS-Responsive-1572B6?style=for-the-badge&logo=css3&logoColor=white" alt="CSS" />
-</p>
-
-<p>
-  <a href="YOUR-LIVE-DEMO-URL">🌐 Live Demo</a>
-  •
-  <a href="YOUR-GITHUB-REPOSITORY-URL">⭐ GitHub Repository</a>
-</p>
-
-</div>
-
----
-
-## 📌 About The Project
-
-**YouTube to MP3 Converter** is a modern web application built with **React and Vite** that provides a simple interface for converting a YouTube URL into an MP3 audio file through an external API.
-
-The project was built as a practical frontend development project to gain real-world experience with:
-
-* ⚛️ React development
-* 🔌 API integration
-* 📡 Asynchronous requests
-* 🧠 JavaScript logic
-* 🎨 Modern UI development
-* 📱 Responsive design
-* ⚡ Vite development workflow
-
-The main goal was to create a clean application where the user can enter a URL, send it to the conversion API, handle the response, and provide the resulting audio output.
+> **Responsible use:** Only download or convert content that you have the legal right or permission to use.
 
 ---
 
 ## ✨ Features
 
-### 🎵 Core Features
-
-* 🔗 YouTube URL input
-* 🎧 MP3 conversion workflow
-* 🔌 External API integration
-* ⚡ Fast Vite-powered development
-* ⏳ Loading state during conversion
-* ❌ Error handling
-* 📥 MP3 result/download workflow
-* 📱 Responsive interface
-* 🎨 Clean and modern UI
-
-### 💻 Developer Features
-
-* ⚛️ Component-based React architecture
-* 🧠 React state management
-* 🔄 Asynchronous API handling
-* 📦 npm package management
-* 🔐 Environment variable support
-* 🧹 Clean project structure
-* 🚀 Production-ready Vite build
+- 🎵 Convert supported YouTube videos to MP3
+- ⚡ Fast conversion workflow
+- 🎚️ Multiple audio quality options:
+  - 128 kbps — Small
+  - 192 kbps — Balanced
+  - 256 kbps — High
+  - 320 kbps — Maximum
+- 📋 One-click clipboard paste
+- 🌓 Dark and light theme support
+- 📱 Fully responsive design
+- 🔒 Rights/permission confirmation before conversion
+- ✅ Clear success and error states
+- 🔄 Convert another video without refreshing the page
+- 🎨 Modern YouTube-inspired visual style
+- 📄 Dedicated informational pages
+- 🚀 Vite-powered development and production builds
 
 ---
 
 ## 🛠️ Tech Stack
 
-| Technology             | Used For                                |
-| ---------------------- | --------------------------------------- |
-| ⚛️ **React**           | Building the user interface             |
-| ⚡ **Vite**             | Development server and production build |
-| 🟨 **JavaScript ES6+** | Application logic                       |
-| 🎨 **CSS**             | Styling and responsive design           |
-| 🔌 **External API**    | Conversion functionality                |
-| 📦 **npm**             | Dependency management                   |
-
----
-
-## 🧩 How It Works
-
-```text
-              👤 User
-                 │
-                 ▼
-        🔗 Enter YouTube URL
-                 │
-                 ▼
-        ⚛️ React Application
-                 │
-                 ▼
-          🔌 API Request
-                 │
-                 ▼
-        ⚙️ Conversion API
-                 │
-                 ▼
-          🎵 MP3 Result
-                 │
-                 ▼
-        📥 User Downloads
-```
+| Technology | Purpose |
+|---|---|
+| React | Frontend UI |
+| Vite | Development and build tooling |
+| JavaScript | Application logic |
+| Axios | API requests |
+| Lucide React | Icons |
+| CSS | Responsive styling and themes |
+| RapidAPI | YouTube conversion API |
 
 ---
 
 ## 📂 Project Structure
 
 ```text
-youtube-to-mp3/
-│
+clearaudio/
 ├── public/
+│   ├── favicon.png
+│   ├── robots.txt
+│   └── sitemap.xml
 │
 ├── src/
 │   ├── components/
-│   │   └── ...
+│   │   ├── ConverterCard.jsx
+│   │   ├── Footer.jsx
+│   │   ├── Header.jsx
+│   │   ├── FAQOverview.jsx
+│   │   ├── HowItWorks.jsx
+│   │   ├── LegalOverview.jsx
+│   │   └── SupportedFormats.jsx
 │   │
 │   ├── App.jsx
-│   ├── main.jsx
-│   ├── App.css
-│   └── ...
+│   ├── index.css
+│   └── main.jsx
 │
+├── .env
 ├── .gitignore
+├── index.html
 ├── package.json
-├── package-lock.json
-├── vite.config.js
 └── README.md
 ```
 
-> The exact component structure may vary depending on the current version of the project.
-
 ---
 
-# 🚀 Getting Started
+## 🚀 Getting Started
 
-Follow these steps to run the project locally.
-
-## 1️⃣ Clone the Repository
+### 1. Clone the repository
 
 ```bash
-git clone YOUR-GITHUB-REPOSITORY-URL
+git clone YOUR_GITHUB_REPOSITORY_URL
 ```
 
-## 2️⃣ Navigate to the Project
+### 2. Open the project
 
 ```bash
-cd youtube-to-mp3
+cd clearaudio
 ```
 
-## 3️⃣ Install Dependencies
+### 3. Install dependencies
 
 ```bash
 npm install
 ```
 
-## 4️⃣ Start the Development Server
+### 4. Create your environment file
+
+Create a `.env` file in the project root:
+
+```env
+VITE_RAPIDAPI_KEY=your_rapidapi_key_here
+```
+
+Never commit your real API key to GitHub.
+
+### 5. Start the development server
 
 ```bash
 npm run dev
 ```
 
-The application will normally be available at:
+Vite will provide a local development URL, normally:
 
 ```text
 http://localhost:5173
@@ -168,235 +117,376 @@ http://localhost:5173
 
 ---
 
-# 🔐 Environment Variables
+## 🔑 API Configuration
 
-If your API requires configuration or an API key, create a `.env` file in the project root.
+ClearAudio uses a RapidAPI YouTube conversion service.
 
-Example:
+The frontend reads the API key from:
 
 ```env
-VITE_API_URL=YOUR_API_URL
-VITE_API_KEY=YOUR_API_KEY
+VITE_RAPIDAPI_KEY
 ```
 
-Use Vite environment variables inside React with:
+Make sure the required RapidAPI subscription/API access is configured for the service used by the project.
 
-```javascript
-const apiUrl = import.meta.env.VITE_API_URL;
-```
+For security, keep secrets out of source code and do not upload `.env` to GitHub.
 
-### ⚠️ Important
+---
 
-Never upload private API keys or secrets to GitHub.
+## 🎧 Audio Quality
 
-Add environment files to `.gitignore`:
+ClearAudio provides four quality choices:
+
+| Quality | Description |
+|---|---|
+| 128 kbps | Smaller file size |
+| 192 kbps | Balanced quality and size |
+| 256 kbps | Higher audio quality |
+| 320 kbps | Maximum available quality |
+
+Higher bitrate generally produces a larger file.
+
+---
+
+## 🔄 Conversion Flow
+
+The application follows a simple conversion process:
 
 ```text
-.env
-.env.local
-.env.production
+Paste YouTube URL
+        ↓
+Confirm usage rights
+        ↓
+Select audio quality
+        ↓
+Click "Convert to MP3"
+        ↓
+API processes the request
+        ↓
+Conversion completed
+        ↓
+Download MP3
 ```
 
 ---
 
-# 🧠 What I Learned
+## 📱 Responsive Design
 
-Building this project helped me understand how a frontend application communicates with an external API.
+ClearAudio is designed to work across:
 
-### React
+- Desktop
+- Laptop
+- Tablet
+- Mobile phones
 
-* Components
-* Props
-* State
-* Event handling
-* Conditional rendering
-* Form handling
-
-### JavaScript
-
-* ES6+ syntax
-* Functions
-* Promises
-* `async/await`
-* Error handling
-* API requests
-
-### API Integration
-
-* Sending requests
-* Handling API responses
-* Loading states
-* Error states
-* Working with external services
-
-### Frontend Development
-
-* Responsive layouts
-* User-friendly interfaces
-* Input validation
-* UI states
-* Project organization
+The interface adapts navigation, spacing, cards, forms, tables, and content sections for smaller screens.
 
 ---
 
-# 🎯 Project Workflow
+## 🌓 Theme System
 
-The application follows a simple workflow:
+ClearAudio supports both:
 
-**1. Enter URL**
+- Dark mode
+- Light mode
 
-The user enters a YouTube URL into the converter.
+The visual system uses a consistent set of CSS variables for:
 
-**2. Validate Input**
+- Page background
+- Cards
+- Navigation
+- Text
+- Borders
+- Inputs
+- Buttons
+- Accent colors
+- Shadows
+- Theme-specific surfaces
 
-The application checks the provided input.
-
-**3. Send API Request**
-
-React sends the URL to the configured conversion API.
-
-**4. Process Response**
-
-The application handles the API response and displays the result.
-
-**5. Get MP3**
-
-The user can access the generated MP3 result.
+The primary visual direction is inspired by the modern YouTube aesthetic while maintaining its own ClearAudio identity.
 
 ---
 
-# 📸 Screenshots
+## 📄 Pages
 
-Add your project screenshots here:
+ClearAudio includes the following main sections/pages:
 
-```md
-![Home Page](./screenshots/home.png)
+### Home
+
+The main YouTube-to-MP3 converter interface.
+
+### How It Works
+
+Explains the basic conversion workflow and how users can use the converter.
+
+### Supported Formats
+
+Provides information about supported YouTube links and conversion formats.
+
+### FAQ
+
+Answers common questions about the service and conversion process.
+
+### Legal
+
+Provides responsible-use and rights-related information.
+
+---
+
+## 🧩 Main Components
+
+### `ConverterCard.jsx`
+
+Handles:
+
+- YouTube URL input
+- Clipboard paste
+- Audio quality selection
+- Rights confirmation
+- Conversion state
+- Error messages
+- Download action
+- Reset/conversion-again flow
+
+### `Header.jsx`
+
+Provides:
+
+- Brand/navigation
+- Page navigation
+- Theme controls
+- Responsive mobile navigation
+
+### `Footer.jsx`
+
+Provides:
+
+- Site navigation
+- Supporting information
+- Footer links
+
+### `HowItWorks.jsx`
+
+Displays the conversion steps and user guidance.
+
+### `SupportedFormats.jsx`
+
+Explains supported links and formats.
+
+### `FAQOverview.jsx`
+
+Displays frequently asked questions.
+
+### `LegalOverview.jsx`
+
+Displays responsible-use and legal guidance.
+
+---
+
+## 📦 Available Scripts
+
+Run these commands from the project directory:
+
+```bash
+npm run dev
 ```
 
-You can also add multiple screenshots:
-
-```md
-![Converter](./screenshots/converter.png)
-
-![Mobile View](./screenshots/mobile.png)
-```
-
----
-
-# 🌐 Live Demo
-
-🚀 **Try the project online:**
-
-**[👉 Open Live Demo](YOUR-LIVE-DEMO-URL)**
-
----
-
-# 📦 Build For Production
-
-To create a production build:
+Starts the development server.
 
 ```bash
 npm run build
 ```
 
-To preview the production build locally:
+Creates the production build.
 
 ```bash
 npm run preview
 ```
 
----
-
-# 🔮 Future Improvements
-
-The project can be expanded with more features in the future:
-
-* [ ] 🎬 YouTube video preview
-* [ ] 🖼️ Video thumbnail display
-* [ ] 📝 Video title display
-* [ ] ⏱️ Video duration display
-* [ ] 🎚️ Audio quality selection
-* [ ] 📊 Conversion progress indicator
-* [ ] 📜 Conversion history
-* [ ] 🌙 Dark / Light mode
-* [ ] 📱 Improved mobile experience
-* [ ] ♿ Accessibility improvements
-* [ ] 🔊 Additional audio formats
-* [ ] 🛡️ Better API error handling
+Previews the production build locally.
 
 ---
 
-# ⚠️ Disclaimer
+## 🏗️ Production Build
 
-This project is created for **educational and development purposes**.
-
-Users are responsible for ensuring that they have the necessary rights or permission to download or convert any content they use with the application.
-
-Always respect copyright laws, applicable regulations, and the terms of service of the platforms and APIs involved.
-
----
-
-# 👨‍💻 About The Developer
-
-<div align="center">
-
-### Hahim
-
-**Student • Frontend Developer • AI & Web Development Learner**
-
-I enjoy building modern web applications and learning through real-world projects.
-
-### Currently Learning
-
-**React • JavaScript • HTML • CSS • Vite • APIs • AI Tools**
-
-</div>
-
----
-
-# 🤝 Contributing
-
-Contributions, suggestions, and improvements are welcome.
-
-If you want to contribute:
+Before deployment, create a production build:
 
 ```bash
-# Fork the repository
-
-# Create a new branch
-git checkout -b feature/your-feature
-
-# Make your changes
-
-# Commit your changes
-git commit -m "Add new feature"
-
-# Push your branch
-git push origin feature/your-feature
+npm run build
 ```
 
-Then open a Pull Request.
+The generated production files will be placed in:
+
+```text
+dist/
+```
+
+For deployment platforms such as Netlify or Vercel, configure the required environment variable:
+
+```text
+VITE_RAPIDAPI_KEY
+```
 
 ---
 
-# ⭐ Show Your Support
+## 🔐 Security Notes
 
-If you found this project useful or interesting:
+- Never publish your RapidAPI key in GitHub.
+- Store API credentials in environment variables.
+- Keep `.env` in `.gitignore`.
+- Do not expose private credentials in frontend source code.
+- Only process content that users are legally authorized to download or convert.
 
-⭐ **Star the repository**
-
-🍴 **Fork the project**
-
-💡 **Share your feedback**
+> **Important:** Vite environment variables beginning with `VITE_` are exposed to client-side code. For a production application handling sensitive credentials, consider routing API requests through a secure backend/serverless function.
 
 ---
 
-<div align="center">
+## ⚖️ Responsible Use
 
-### 🚀 Built with React + Vite
+ClearAudio is intended for legitimate and authorized use.
 
-**Keep Learning • Keep Building • Keep Improving**
+Users are responsible for ensuring that they have the necessary rights, licenses, or permissions before downloading or converting content.
 
-⭐ Thanks for visiting this repository! ⭐
+Do not use the application to infringe copyright, violate platform terms, or download content without authorization.
 
-</div>
+---
+
+## 🌐 SEO
+
+The project includes SEO-oriented configuration such as:
+
+- Descriptive page title
+- Meta description
+- Canonical URL
+- Robots configuration
+- Sitemap configuration
+- Open Graph-ready metadata
+- Structured data support
+
+Before production deployment, replace placeholder domain values with the real deployed domain.
+
+---
+
+## 🎯 Project Goals
+
+ClearAudio was designed to demonstrate practical frontend development skills through a real-world application.
+
+The project focuses on:
+
+- React component architecture
+- State management
+- API integration
+- Responsive UI development
+- Theme management
+- Form validation
+- Error handling
+- User experience
+- Accessibility-conscious UI patterns
+- SEO fundamentals
+- Production deployment preparation
+
+---
+
+## 🔮 Future Improvements
+
+Potential future enhancements include:
+
+- Backend/serverless API proxy
+- Download history
+- Batch conversion
+- More audio formats
+- Additional metadata handling
+- Progress indicators
+- Improved API error reporting
+- Rate limiting
+- Analytics
+- Advanced SEO pages
+- Automated testing
+- Improved accessibility
+- Internationalization
+
+---
+
+## 📸 Screenshots
+
+Add screenshots of the application here after deployment.
+
+Example:
+
+```text
+screenshots/
+├── home-dark.png
+├── home-light.png
+├── conversion-success.png
+└── mobile-view.png
+```
+
+---
+
+## 🤝 Contributing
+
+Contributions and suggestions are welcome.
+
+To contribute:
+
+1. Fork the repository.
+2. Create a new branch.
+3. Make your changes.
+4. Test the project locally.
+5. Commit your changes.
+6. Open a pull request.
+
+Example:
+
+```bash
+git checkout -b feature/new-feature
+git add .
+git commit -m "Add new feature"
+git push origin feature/new-feature
+```
+
+---
+
+## 📄 License
+
+Add your preferred license here, for example:
+
+```text
+MIT License
+```
+
+If you choose a different license, replace this section with the appropriate license information.
+
+---
+
+## 👨‍💻 Developer
+
+**Muhammad Hashim**
+
+Full-Stack Web Developer | React Developer | JavaScript | AI Enthusiast
+
+This project was created as a practical real-world web development project focused on building a polished, responsive, and production-ready user experience.
+
+---
+
+## ⭐ Support
+
+If you find ClearAudio useful or helpful for learning, feel free to:
+
+- ⭐ Star the repository
+- 🍴 Fork the project
+- 🐛 Report issues
+- 💡 Suggest improvements
+- 🤝 Contribute to the project
+
+---
+
+## 📌 Disclaimer
+
+ClearAudio is a software project intended for educational and legitimate use.
+
+The developer does not encourage copyright infringement or unauthorized downloading of protected content. Users are solely responsible for how they use the application and for complying with applicable laws, licenses, and platform policies.
+
+---
+
+**Built with ❤️ using React + Vite**
