@@ -1,21 +1,30 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Check, ChevronDown, Globe2 } from "lucide-react";
+import {
+  Check,
+  ChevronDown,
+  Globe2,
+} from "lucide-react";
+
 import { useLanguage } from "../context/LanguageContext";
+
+import usFlag from "../assets/flags/us.png";
+import greeceFlag from "../assets/flags/greece.png";
+import japanFlag from "../assets/flags/japan.png";
 
 const languages = [
   {
     code: "en",
-    flag: "🇺🇸",
+    flag: usFlag,
     key: "english",
   },
   {
     code: "el",
-    flag: "🇬🇷",
+    flag: greeceFlag,
     key: "greek",
   },
   {
     code: "ja",
-    flag: "🇯🇵",
+    flag: japanFlag,
     key: "japanese",
   },
 ];
@@ -46,8 +55,15 @@ export default function LanguageSwitcher({ mobile = false }) {
       }
     };
 
-    document.addEventListener("mousedown", handleOutsideClick);
-    document.addEventListener("keydown", handleEscape);
+    document.addEventListener(
+      "mousedown",
+      handleOutsideClick
+    );
+
+    document.addEventListener(
+      "keydown",
+      handleEscape
+    );
 
     return () => {
       document.removeEventListener(
@@ -74,6 +90,7 @@ export default function LanguageSwitcher({ mobile = false }) {
         mobile ? "languageSwitcherMobile" : ""
       }`}
     >
+      {/* MAIN LANGUAGE BUTTON */}
       <button
         type="button"
         className="languageSwitcherButton"
@@ -83,12 +100,16 @@ export default function LanguageSwitcher({ mobile = false }) {
         title={t.language?.label || "Language"}
       >
         <Globe2
-          size={17}
+          size={16}
           strokeWidth={2}
+          className="languageGlobe"
         />
 
         <span className="languageFlag">
-          {currentLanguage.flag}
+          <img
+            src={currentLanguage.flag}
+            alt=""
+          />
         </span>
 
         <span className="languageCurrent">
@@ -97,55 +118,77 @@ export default function LanguageSwitcher({ mobile = false }) {
         </span>
 
         <ChevronDown
-          size={15}
+          size={14}
+          strokeWidth={2}
           className={`languageChevron ${
-            open ? "languageChevronOpen" : ""
+            open
+              ? "languageChevronOpen"
+              : ""
           }`}
         />
       </button>
 
+      {/* DROPDOWN */}
       {open && (
         <div
           className="languageDropdown"
           role="listbox"
-          aria-label={t.language?.label || "Language"}
+          aria-label={
+            t.language?.label || "Language"
+          }
         >
-          {languages.map((item) => {
-            const isActive = language === item.code;
+          <div className="languageDropdownHeader">
+            <Globe2 size={14} />
+            <span>
+              {t.language?.label || "Language"}
+            </span>
+          </div>
 
-            return (
-              <button
-                key={item.code}
-                type="button"
-                className={`languageOption ${
-                  isActive
-                    ? "languageOptionActive"
-                    : ""
-                }`}
-                onClick={() =>
-                  handleLanguageChange(item.code)
-                }
-                role="option"
-                aria-selected={isActive}
-              >
-                <span className="languageOptionFlag">
-                  {item.flag}
-                </span>
+          <div className="languageDropdownList">
+            {languages.map((item) => {
+              const isActive =
+                language === item.code;
 
-                <span className="languageOptionName">
-                  {t.language?.[item.key] ||
-                    item.code.toUpperCase()}
-                </span>
+              return (
+                <button
+                  key={item.code}
+                  type="button"
+                  className={`languageOption ${
+                    isActive
+                      ? "languageOptionActive"
+                      : ""
+                  }`}
+                  onClick={() =>
+                    handleLanguageChange(
+                      item.code
+                    )
+                  }
+                  role="option"
+                  aria-selected={isActive}
+                >
+                  <span className="languageOptionFlag">
+                    <img
+                      src={item.flag}
+                      alt=""
+                    />
+                  </span>
 
-                {isActive && (
-                  <Check
-                    size={16}
-                    className="languageCheck"
-                  />
-                )}
-              </button>
-            );
-          })}
+                  <span className="languageOptionName">
+                    {t.language?.[
+                      item.key
+                    ] ||
+                      item.code.toUpperCase()}
+                  </span>
+
+                  {isActive && (
+                    <span className="languageCheck">
+                      <Check size={14} />
+                    </span>
+                  )}
+                </button>
+              );
+            })}
+          </div>
         </div>
       )}
     </div>

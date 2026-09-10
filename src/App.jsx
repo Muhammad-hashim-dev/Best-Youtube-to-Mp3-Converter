@@ -923,69 +923,144 @@ export default function App() {
         }
 
         /* =========================
-   LANGUAGE SWITCHER
+   PREMIUM LANGUAGE SWITCHER
 ========================= */
 
 .languageSwitcher {
   position: relative;
   display: inline-flex;
   align-items: center;
+  z-index: 3000;
 }
 
+/* MAIN BUTTON */
 .languageSwitcherButton {
-  min-height: 40px;
+  position: relative;
+  min-height: 42px;
   display: inline-flex;
   align-items: center;
-  gap: 7px;
-  padding: 0 12px;
+  gap: 8px;
+  padding: 0 13px;
   border: 1px solid rgba(255, 255, 255, 0.09);
-  border-radius: 11px;
-  background: rgba(255, 255, 255, 0.025);
+  border-radius: 12px;
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255, 255, 255, 0.055),
+      rgba(255, 255, 255, 0.018)
+    );
   color: var(--text-secondary);
   font-size: 13px;
   font-weight: 750;
+  letter-spacing: -0.01em;
   cursor: pointer;
+  overflow: hidden;
+
+  box-shadow:
+    0 8px 24px rgba(0, 0, 0, 0.16),
+    inset 0 1px 0 rgba(255, 255, 255, 0.035);
+
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
 
   transition:
-    color 0.2s ease,
-    border-color 0.2s ease,
-    background 0.2s ease,
-    transform 0.2s ease,
-    box-shadow 0.2s ease;
+    color 0.22s ease,
+    border-color 0.22s ease,
+    background 0.22s ease,
+    transform 0.22s ease,
+    box-shadow 0.22s ease;
+}
+
+/* subtle animated shine */
+.languageSwitcherButton::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -120%;
+  width: 70%;
+  height: 100%;
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.07),
+      transparent
+    );
+  transform: skewX(-18deg);
+  transition: left 0.55s ease;
+  pointer-events: none;
+}
+
+.languageSwitcherButton:hover::before {
+  left: 140%;
 }
 
 .languageSwitcherButton:hover {
   color: var(--text-primary);
-  border-color: rgba(255, 49, 95, 0.28);
-  background: rgba(255, 49, 95, 0.07);
-  box-shadow: 0 6px 20px rgba(255, 49, 95, 0.08);
-  transform: translateY(-1px);
+  border-color: rgba(255, 49, 95, 0.34);
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255, 49, 95, 0.085),
+      rgba(255, 255, 255, 0.025)
+    );
+
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 10px 28px rgba(0, 0, 0, 0.22),
+    0 0 22px rgba(255, 49, 95, 0.10),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
 }
 
+/* GLOBE */
 .languageSwitcherButton svg:first-child {
   color: var(--text-muted);
-  transition: color 0.2s ease;
+  transition:
+    color 0.22s ease,
+    transform 0.22s ease;
 }
 
 .languageSwitcherButton:hover svg:first-child {
   color: var(--accent);
+  transform: rotate(8deg);
 }
 
+/* FLAG */
 .languageFlag {
-  font-size: 16px;
+  width: 23px;
+  height: 16px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-radius: 3px;
+
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.10),
+    0 2px 8px rgba(0, 0, 0, 0.18);
+}
+
+.languageFlag img {
+  width: 23px;
+  height: 16px;
+  display: block;
+  object-fit: cover;
+}
+
+/* CURRENT LANGUAGE */
+.languageCurrent {
+  white-space: nowrap;
+  color: inherit;
   line-height: 1;
 }
 
-.languageCurrent {
-  white-space: nowrap;
-  letter-spacing: -0.01em;
-}
-
+/* CHEVRON */
 .languageChevron {
   color: var(--text-muted);
   transition:
-    transform 0.2s ease,
-    color 0.2s ease;
+    transform 0.25s ease,
+    color 0.25s ease;
 }
 
 .languageChevronOpen {
@@ -993,43 +1068,105 @@ export default function App() {
   color: var(--accent);
 }
 
-/* DROPDOWN */
+/* =========================
+   DROPDOWN
+========================= */
 
 .languageDropdown {
   position: absolute;
-  top: calc(100% + 9px);
+  top: calc(100% + 10px);
   right: 0;
-  width: 178px;
-  padding: 6px;
+  width: 190px;
+  padding: 7px;
 
-  background: rgba(17, 17, 17, 0.96);
-  border: 1px solid rgba(255, 255, 255, 0.09);
-  border-radius: 14px;
+  background:
+    linear-gradient(
+      145deg,
+      rgba(22, 22, 22, 0.98),
+      rgba(12, 12, 12, 0.98)
+    );
+
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  border-radius: 16px;
 
   box-shadow:
-    0 18px 45px rgba(0, 0, 0, 0.45),
-    0 0 30px rgba(255, 49, 95, 0.04);
+    0 22px 55px rgba(0, 0, 0, 0.52),
+    0 0 35px rgba(255, 49, 95, 0.07),
+    inset 0 1px 0 rgba(255, 255, 255, 0.035);
 
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
+  backdrop-filter: blur(22px);
+  -webkit-backdrop-filter: blur(22px);
 
-  z-index: 2000;
+  z-index: 5000;
 
-  animation: languageDropdownIn 0.18s ease-out;
+  animation:
+    languageDropdownIn 0.22s
+    cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+/* little red glow behind dropdown */
+.languageDropdown::before {
+  content: "";
+  position: absolute;
+  top: -20px;
+  right: 18px;
+  width: 80px;
+  height: 50px;
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(255, 49, 95, 0.16),
+      transparent 70%
+    );
+
+  filter: blur(14px);
+  pointer-events: none;
+}
+
+/* DROPDOWN HEADER */
+.languageDropdownHeader {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  padding: 9px 10px 8px;
+  margin-bottom: 4px;
+
+  color: var(--text-muted);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.languageDropdownHeader svg {
+  color: var(--accent);
+}
+
+/* OPTIONS */
+.languageDropdownList {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
 }
 
 .languageOption {
+  position: relative;
+
   width: 100%;
-  min-height: 40px;
+  min-height: 43px;
 
   display: flex;
   align-items: center;
   gap: 10px;
 
-  padding: 9px 10px;
+  padding: 8px 10px;
 
   border: 1px solid transparent;
-  border-radius: 10px;
+  border-radius: 11px;
 
   background: transparent;
   color: var(--text-secondary);
@@ -1043,48 +1180,120 @@ export default function App() {
   transition:
     color 0.18s ease,
     background 0.18s ease,
-    border-color 0.18s ease;
+    border-color 0.18s ease,
+    transform 0.18s ease;
 }
 
 .languageOption:hover {
   color: var(--text-primary);
-  background: rgba(255, 49, 95, 0.08);
-  border-color: rgba(255, 49, 95, 0.12);
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(255, 49, 95, 0.10),
+      rgba(255, 49, 95, 0.035)
+    );
+
+  border-color: rgba(255, 49, 95, 0.14);
+
+  transform: translateX(2px);
 }
 
+/* ACTIVE OPTION */
 .languageOptionActive {
   color: var(--accent);
-  background: rgba(255, 49, 95, 0.10);
-  border-color: rgba(255, 49, 95, 0.14);
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(255, 49, 95, 0.14),
+      rgba(255, 49, 95, 0.045)
+    );
+
+  border-color: rgba(255, 49, 95, 0.18);
+
+  box-shadow:
+    inset 3px 0 0 var(--accent),
+    0 4px 16px rgba(255, 49, 95, 0.05);
 }
 
+/* FLAG IN DROPDOWN */
 .languageOptionFlag {
-  width: 22px;
+  width: 25px;
+  height: 17px;
+
+  flex: 0 0 25px;
+
   display: inline-flex;
+  align-items: center;
   justify-content: center;
-  font-size: 17px;
-  line-height: 1;
+
+  overflow: hidden;
+  border-radius: 4px;
+
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.10),
+    0 2px 7px rgba(0, 0, 0, 0.20);
+}
+
+.languageOptionFlag img {
+  width: 25px;
+  height: 17px;
+  display: block;
+  object-fit: cover;
 }
 
 .languageOptionName {
   flex: 1;
 }
 
+/* CHECK ICON */
 .languageCheck {
-  color: var(--accent);
+  width: 22px;
+  height: 22px;
+
+  display: grid;
+  place-items: center;
+
+  border-radius: 50%;
+
+  color: #ffffff;
+
+  background:
+    linear-gradient(
+      135deg,
+      #ff174d,
+      #ff315f
+    );
+
+  box-shadow:
+    0 4px 12px rgba(255, 49, 95, 0.25);
 }
 
-/* SMALL OPEN ANIMATION */
+.languageCheck svg {
+  width: 13px;
+  height: 13px;
+}
+
+/* =========================
+   DROPDOWN ANIMATION
+========================= */
 
 @keyframes languageDropdownIn {
   from {
     opacity: 0;
-    transform: translateY(-5px) scale(0.98);
+    transform:
+      translateY(-8px)
+      scale(0.96);
+    transform-origin: top right;
   }
 
   to {
     opacity: 1;
-    transform: translateY(0) scale(1);
+    transform:
+      translateY(0)
+      scale(1);
+    transform-origin: top right;
   }
 }
 
@@ -1093,31 +1302,80 @@ export default function App() {
 ========================= */
 
 :root[data-theme="light"] .languageSwitcherButton {
-  background: rgba(15, 23, 42, 0.025);
-  border-color: rgba(15, 23, 42, 0.09);
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255, 255, 255, 0.92),
+      rgba(248, 249, 251, 0.92)
+    );
+
+  border-color:
+    rgba(15, 23, 42, 0.10);
+
+  box-shadow:
+    0 7px 22px rgba(15, 23, 42, 0.07),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
 }
 
 :root[data-theme="light"] .languageSwitcherButton:hover {
-  background: rgba(233, 30, 77, 0.06);
-  border-color: rgba(233, 30, 77, 0.22);
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255, 255, 255, 1),
+      rgba(255, 244, 247, 0.96)
+    );
+
+  border-color:
+    rgba(233, 30, 77, 0.25);
+
+  box-shadow:
+    0 10px 28px rgba(15, 23, 42, 0.09),
+    0 0 22px rgba(233, 30, 77, 0.08);
 }
 
 :root[data-theme="light"] .languageDropdown {
-  background: rgba(255, 255, 255, 0.97);
-  border-color: rgba(15, 23, 42, 0.09);
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255, 255, 255, 0.98),
+      rgba(248, 249, 251, 0.98)
+    );
+
+  border-color:
+    rgba(15, 23, 42, 0.10);
+
   box-shadow:
-    0 18px 45px rgba(15, 23, 42, 0.12),
-    0 0 25px rgba(233, 30, 77, 0.04);
+    0 22px 55px rgba(15, 23, 42, 0.14),
+    0 0 30px rgba(233, 30, 77, 0.05);
+}
+
+:root[data-theme="light"] .languageDropdownHeader {
+  border-color:
+    rgba(15, 23, 42, 0.07);
 }
 
 :root[data-theme="light"] .languageOption:hover {
-  background: rgba(233, 30, 77, 0.06);
-  border-color: rgba(233, 30, 77, 0.10);
+  background:
+    linear-gradient(
+      90deg,
+      rgba(233, 30, 77, 0.08),
+      rgba(233, 30, 77, 0.025)
+    );
+
+  border-color:
+    rgba(233, 30, 77, 0.12);
 }
 
 :root[data-theme="light"] .languageOptionActive {
-  background: rgba(233, 30, 77, 0.08);
-  border-color: rgba(233, 30, 77, 0.12);
+  background:
+    linear-gradient(
+      90deg,
+      rgba(233, 30, 77, 0.11),
+      rgba(233, 30, 77, 0.035)
+    );
+
+  border-color:
+    rgba(233, 30, 77, 0.15);
 }
 
 /* =========================
@@ -1130,11 +1388,7 @@ export default function App() {
     min-height: 37px;
     padding: 0;
     justify-content: center;
-  }
-
-  .languageSwitcherMobile .languageCurrent,
-  .languageSwitcherMobile .languageChevron {
-    display: none;
+    gap: 0;
   }
 
   .languageSwitcherMobile
@@ -1143,13 +1397,25 @@ export default function App() {
     display: none;
   }
 
+  .languageSwitcherMobile .languageCurrent,
+  .languageSwitcherMobile .languageChevron {
+    display: none;
+  }
+
   .languageSwitcherMobile .languageFlag {
-    font-size: 17px;
+    width: 22px;
+    height: 15px;
+  }
+
+  .languageSwitcherMobile .languageFlag img {
+    width: 22px;
+    height: 15px;
   }
 
   .languageSwitcherMobile .languageDropdown {
+    top: calc(100% + 9px);
     right: 0;
-    width: 170px;
+    width: 175px;
   }
 }
 
