@@ -1,232 +1,463 @@
-import React from 'react';
+import React from "react";
+import { useLanguage } from "../context/LanguageContext";
 
 export default function FAQOverview({ onBackToHome }) {
+  const { t } = useLanguage();
+
   const faqs = [
     {
-      q: 'How does the converter work?',
-      a: 'You paste a supported YouTube link and confirm you have the right to convert it. Our server checks the link, sends the request to an authorized media-processing service, and returns a private download link for the finished MP3. Nothing is processed in your browser and no software is installed.'
+      q: t.faq.q1,
+      a: t.faq.a1,
     },
     {
-      q: 'What URLs are supported?',
-      a: 'Single videos from youtube.com/watch, youtu.be short links, youtube.com/shorts, youtube.com/embed and music.youtube.com. Playlists, channels, private videos, members-only content and links from other websites are rejected.'
+      q: t.faq.q2,
+      a: t.faq.a2,
     },
     {
-      q: 'What audio quality is available?',
-      a: 'You can request 128, 192, 256 or 320 kbps MP3. Bitrate only controls how much of the source audio is preserved — it cannot add quality that the original recording does not contain, so a low-quality source will still sound low quality at 320 kbps.'
+      q: t.faq.q3,
+      a: t.faq.a3,
     },
     {
-      q: 'Why did my conversion fail?',
-      a: 'The most common reasons are an unsupported or mistyped link, content that is restricted or unavailable in the processing region, a video longer than the 90 minute limit, or a temporary problem with the processing service. Each failure shows a plain-language message so you know whether to retry or use a different link.'
+      q: t.faq.q4,
+      a: t.faq.a4,
     },
     {
-      q: 'Is the service free?',
-      a: 'The converter is free to use within the published fair-use limits of 10 conversions per hour per device. There is no account, no registration and no email required.'
+      q: t.faq.q5,
+      a: t.faq.a5,
     },
     {
-      q: 'Where are temporary files stored?',
-      a: "Converted audio is held in temporary server-side storage operated by the processing service, reachable only through a private, token-protected download link generated for your session. The provider's temporary URL is never exposed to your browser."
+      q: t.faq.q6,
+      a: t.faq.a6,
     },
     {
-      q: 'How long are files retained?',
-      a: 'Download links and temporary files expire 60 minutes after a conversion completes and are deleted automatically. Job records keep only technical metadata such as status, duration and file size — never your media.'
+      q: t.faq.q7,
+      a: t.faq.a7,
     },
     {
-      q: 'What content can I legally convert?',
-      a: 'Content you created, content you own the rights to, content licensed for reuse (for example Creative Commons), public-domain material, or content where the rights holder has given you permission. Converting copyrighted material without permission is not allowed and is a breach of our Acceptable Use Policy.'
-    }
+      q: t.faq.q8,
+      a: t.faq.a8,
+    },
   ];
 
   return (
-    <main style={styles.container}>
-      <div style={styles.breadcrumbs}>
+    <main className="faqPage">
+      <style>{`
+        .faqPage {
+          width: min(920px, calc(100% - 48px));
+          margin: 0 auto;
+          padding: 52px 0 80px;
+          color: var(--text-primary);
+        }
+
+        /* Breadcrumbs */
+        .faqBreadcrumbs {
+          display: flex;
+          align-items: center;
+          gap: 9px;
+          margin-bottom: 28px;
+          font-size: 0.84rem;
+          font-weight: 600;
+          color: var(--text-muted);
+        }
+
+        .faqCrumbLink {
+          cursor: pointer;
+          color: var(--accent-color);
+          transition: opacity 0.2s ease;
+        }
+
+        .faqCrumbLink:hover {
+          opacity: 0.7;
+        }
+
+        .faqCrumbDivider {
+          color: var(--border-color);
+        }
+
+        .faqCrumbActive {
+          color: var(--text-muted);
+        }
+
+        /* Header */
+        .faqHeader {
+          position: relative;
+          margin-bottom: 38px;
+        }
+
+        .faqHeader::before {
+          content: "";
+          position: absolute;
+          width: 230px;
+          height: 160px;
+          top: -60px;
+          left: -70px;
+          background: var(--accent-color);
+          opacity: 0.045;
+          filter: blur(70px);
+          border-radius: 50%;
+          pointer-events: none;
+        }
+
+        .faqMainHeading {
+          position: relative;
+          margin: 0 0 14px;
+          color: var(--text-primary);
+          font-size: clamp(2.2rem, 5vw, 3.25rem);
+          font-weight: 900;
+          line-height: 1.08;
+          letter-spacing: -1.8px;
+        }
+
+        .faqLeadText {
+          position: relative;
+          max-width: 720px;
+          margin: 0;
+          color: var(--text-muted);
+          font-size: 1rem;
+          line-height: 1.75;
+        }
+
+        /* FAQ List */
+        .faqListWrapper {
+          display: flex;
+          flex-direction: column;
+          gap: 14px;
+        }
+
+        .faqCard {
+          position: relative;
+          overflow: hidden;
+          padding: 21px 22px;
+          background: var(--card-bg);
+          border: 1px solid var(--border-color);
+          border-radius: 17px;
+          box-shadow: var(--shadow-sm);
+          transition:
+            transform 0.25s ease,
+            border-color 0.25s ease,
+            box-shadow 0.25s ease,
+            background-color 0.25s ease;
+        }
+
+        .faqCard::before {
+          content: "";
+          position: absolute;
+          width: 130px;
+          height: 130px;
+          top: -80px;
+          right: -55px;
+          border-radius: 50%;
+          background: var(--accent-color);
+          opacity: 0;
+          filter: blur(45px);
+          transition: opacity 0.25s ease;
+          pointer-events: none;
+        }
+
+        .faqCard:hover {
+          transform: translateY(-2px);
+          border-color: var(--accent-color);
+          box-shadow: var(--shadow-md);
+        }
+
+        .faqCard:hover::before {
+          opacity: 0.08;
+        }
+
+        /* Question */
+        .faqQuestionRow {
+          display: flex;
+          align-items: flex-start;
+          gap: 13px;
+        }
+
+        .faqQuestionIcon {
+          width: 32px;
+          height: 32px;
+          min-width: 32px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          margin-top: 1px;
+          border-radius: 10px;
+          background: var(--accent-soft);
+          border: 1px solid var(--accent-border);
+          color: var(--accent-color);
+          font-size: 0.92rem;
+          font-weight: 900;
+          transition:
+            transform 0.25s ease,
+            background-color 0.25s ease;
+        }
+
+        .faqCard:hover .faqQuestionIcon {
+          transform: scale(1.05);
+        }
+
+        .faqQuestion {
+          margin: 0;
+          color: var(--text-primary);
+          font-size: 1.02rem;
+          font-weight: 800;
+          line-height: 1.45;
+        }
+
+        /* Answer */
+        .faqAnswer {
+          margin: 12px 0 0 45px;
+          color: var(--text-secondary);
+          font-size: 0.93rem;
+          line-height: 1.75;
+        }
+
+        /* Bottom Notice */
+        .faqNotice {
+          position: relative;
+          overflow: hidden;
+          margin-top: 34px;
+          padding: 24px 25px;
+          background:
+            linear-gradient(
+              135deg,
+              var(--accent-soft),
+              var(--card-bg)
+            );
+          border: 1px solid var(--accent-border);
+          border-radius: 18px;
+          box-shadow: var(--shadow-sm);
+        }
+
+        .faqNotice::after {
+          content: "";
+          position: absolute;
+          width: 180px;
+          height: 180px;
+          right: -90px;
+          top: -100px;
+          border-radius: 50%;
+          background: var(--accent-color);
+          opacity: 0.055;
+          filter: blur(45px);
+          pointer-events: none;
+        }
+
+        .faqNoticeTitle {
+          position: relative;
+          z-index: 1;
+          margin: 0 0 8px;
+          color: var(--text-primary);
+          font-size: 1.08rem;
+          font-weight: 850;
+        }
+
+        .faqNoticeText {
+          position: relative;
+          z-index: 1;
+          margin: 0;
+          color: var(--text-secondary);
+          font-size: 0.92rem;
+          line-height: 1.7;
+        }
+
+        /* Tablet */
+        @media (max-width: 768px) {
+          .faqPage {
+            width: calc(100% - 32px);
+            padding: 40px 0 60px;
+          }
+
+          .faqMainHeading {
+            font-size: 2.35rem;
+            letter-spacing: -1.2px;
+          }
+
+          .faqLeadText {
+            font-size: 0.95rem;
+          }
+
+          .faqCard {
+            padding: 19px;
+          }
+
+          .faqQuestion {
+            font-size: 0.98rem;
+          }
+
+          .faqAnswer {
+            margin-left: 45px;
+            font-size: 0.9rem;
+          }
+        }
+
+        /* Mobile */
+        @media (max-width: 480px) {
+          .faqPage {
+            width: calc(100% - 24px);
+            padding: 30px 0 48px;
+          }
+
+          .faqBreadcrumbs {
+            margin-bottom: 22px;
+            font-size: 0.78rem;
+          }
+
+          .faqMainHeading {
+            font-size: 2rem;
+            line-height: 1.1;
+            letter-spacing: -0.9px;
+          }
+
+          .faqLeadText {
+            font-size: 0.88rem;
+            line-height: 1.65;
+          }
+
+          .faqHeader {
+            margin-bottom: 30px;
+          }
+
+          .faqListWrapper {
+            gap: 11px;
+          }
+
+          .faqCard {
+            padding: 16px;
+            border-radius: 14px;
+          }
+
+          .faqQuestionRow {
+            gap: 10px;
+          }
+
+          .faqQuestionIcon {
+            width: 29px;
+            height: 29px;
+            min-width: 29px;
+            border-radius: 9px;
+            font-size: 0.82rem;
+          }
+
+          .faqQuestion {
+            font-size: 0.9rem;
+            line-height: 1.45;
+          }
+
+          .faqAnswer {
+            margin: 10px 0 0 39px;
+            font-size: 0.84rem;
+            line-height: 1.65;
+          }
+
+          .faqNotice {
+            margin-top: 26px;
+            padding: 19px;
+            border-radius: 15px;
+          }
+
+          .faqNoticeTitle {
+            font-size: 0.98rem;
+          }
+
+          .faqNoticeText {
+            font-size: 0.84rem;
+            line-height: 1.65;
+          }
+        }
+
+        /* Very Small Phones */
+        @media (max-width: 360px) {
+          .faqPage {
+            width: calc(100% - 20px);
+            padding-top: 24px;
+          }
+
+          .faqMainHeading {
+            font-size: 1.75rem;
+          }
+
+          .faqCard {
+            padding: 14px;
+          }
+
+          .faqQuestionRow {
+            gap: 9px;
+          }
+
+          .faqQuestionIcon {
+            width: 27px;
+            height: 27px;
+            min-width: 27px;
+          }
+
+          .faqQuestion {
+            font-size: 0.86rem;
+          }
+
+          .faqAnswer {
+            margin-left: 36px;
+            font-size: 0.8rem;
+          }
+        }
+      `}</style>
+
+      {/* Breadcrumbs */}
+      <div className="faqBreadcrumbs">
         <span
-          style={styles.crumbLink}
+          className="faqCrumbLink"
           onClick={onBackToHome}
         >
-          Home
+          {t.faq.breadcrumbHome}
         </span>
 
-        <span style={styles.crumbDivider}>/</span>
+        <span className="faqCrumbDivider">/</span>
 
-        <span style={styles.crumbActive}>
-          FAQ
+        <span className="faqCrumbActive">
+          {t.faq.breadcrumbTitle}
         </span>
       </div>
 
-      <h1 style={styles.mainHeading}>
-        YouTube to MP3 FAQ
-      </h1>
+      {/* Header */}
+      <div className="faqHeader">
+        <h1 className="faqMainHeading">
+          {t.faq.title}
+        </h1>
 
-      <p style={styles.leadText}>
-        Everything people usually ask before their first conversion —
-        written in plain language.
-      </p>
+        <p className="faqLeadText">
+          {t.faq.lead}
+        </p>
+      </div>
 
-      <div style={styles.faqListWrapper}>
+      {/* FAQ Cards */}
+      <div className="faqListWrapper">
         {faqs.map((item, idx) => (
-          <div key={idx} style={styles.faqCard}>
-            <div style={styles.questionRow}>
-              <div style={styles.questionIcon}>?</div>
+          <div className="faqCard" key={idx}>
+            <div className="faqQuestionRow">
+              <div className="faqQuestionIcon">
+                ?
+              </div>
 
-              <h3 style={styles.faqQuestion}>
+              <h3 className="faqQuestion">
                 {item.q}
               </h3>
             </div>
 
-            <p style={styles.faqAnswer}>
+            <p className="faqAnswer">
               {item.a}
             </p>
           </div>
         ))}
       </div>
 
-      <div style={styles.baselineNotice}>
-        <h3 style={styles.noticeTitle}>
-          Anything else?
+      {/* Bottom Notice */}
+      <div className="faqNotice">
+        <h3 className="faqNoticeTitle">
+          {t.faq.anythingElse}
         </h3>
 
-        <p style={styles.faqAnswer}>
-          Read the{' '}
-          <span style={styles.inlineLink}>
-            step-by-step guide
-          </span>
-          , check the{' '}
-          <span style={styles.inlineLink}>
-            format and bitrate details
-          </span>
-          , or contact us.
+        <p className="faqNoticeText">
+          {t.faq.anythingElseText}
         </p>
       </div>
     </main>
   );
 }
-
-const styles = {
-  container: {
-    width: '100%',
-    maxWidth: '800px',
-    margin: '0 auto',
-    padding: '28px 0 60px',
-    textAlign: 'left',
-    fontFamily: 'inherit',
-    color: 'var(--text-primary)'
-  },
-
-  breadcrumbs: {
-    display: 'flex',
-    alignItems: 'center',
-    gap: '8px',
-    fontSize: '0.85rem',
-    color: 'var(--text-muted)',
-    marginBottom: '26px',
-    fontWeight: '600'
-  },
-
-  crumbLink: {
-    cursor: 'pointer',
-    color: 'var(--accent-color)',
-    textDecoration: 'none'
-  },
-
-  crumbDivider: {
-    color: 'var(--text-muted)',
-    opacity: 0.5
-  },
-
-  crumbActive: {
-    color: 'var(--text-muted)'
-  },
-
-  mainHeading: {
-    fontSize: 'clamp(2rem, 5vw, 2.6rem)',
-    fontWeight: '900',
-    color: 'var(--text-primary)',
-    margin: '0 0 14px',
-    letterSpacing: '-1px',
-    lineHeight: '1.1'
-  },
-
-  leadText: {
-    fontSize: '1.05rem',
-    color: 'var(--text-muted)',
-    lineHeight: '1.6',
-    margin: '0 0 36px'
-  },
-
-  faqListWrapper: {
-    display: 'flex',
-    flexDirection: 'column',
-    gap: '14px'
-  },
-
-  faqCard: {
-    display: 'flex',
-    flexDirection: 'column',
-    gap: '12px',
-    padding: '20px',
-    background: 'var(--card-bg)',
-    border: '1px solid var(--border-color)',
-    borderRadius: '16px',
-    boxShadow: 'var(--card-shadow)',
-    transition: 'transform 0.2s ease, border-color 0.2s ease'
-  },
-
-  questionRow: {
-    display: 'flex',
-    alignItems: 'center',
-    gap: '12px'
-  },
-
-  questionIcon: {
-    width: '30px',
-    height: '30px',
-    minWidth: '30px',
-    borderRadius: '50%',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    background: 'var(--accent-soft)',
-    border: '1px solid var(--accent-border)',
-    color: 'var(--accent-color)',
-    fontWeight: '900',
-    fontSize: '0.9rem'
-  },
-
-  faqQuestion: {
-    fontSize: '1.1rem',
-    fontWeight: '800',
-    color: 'var(--text-primary)',
-    margin: 0,
-    lineHeight: '1.4'
-  },
-
-  faqAnswer: {
-    fontSize: '0.95rem',
-    color: 'var(--text-secondary)',
-    lineHeight: '1.7',
-    margin: 0
-  },
-
-  baselineNotice: {
-    marginTop: '34px',
-    padding: '22px',
-    background: 'var(--accent-soft)',
-    borderRadius: '16px',
-    border: '1px solid var(--accent-border)'
-  },
-
-  noticeTitle: {
-    fontSize: '1.1rem',
-    fontWeight: '800',
-    color: 'var(--text-primary)',
-    margin: '0 0 8px'
-  },
-
-  inlineLink: {
-    color: 'var(--accent-color)',
-    textDecoration: 'underline',
-    textUnderlineOffset: '3px',
-    cursor: 'pointer',
-    fontWeight: '700'
-  }
-};

@@ -10,6 +10,8 @@ import {
   ShieldCheck,
 } from "lucide-react";
 
+import { useLanguage } from "../context/LanguageContext";
+
 export default function ConverterCard({
   inputUrl,
   setInputUrl,
@@ -19,6 +21,8 @@ export default function ConverterCard({
   onConvert,
   onReset,
 }) {
+  const { t } = useLanguage();
+
   const [quality, setQuality] = useState("192");
   const [rightsConfirmed, setRightsConfirmed] = useState(false);
   const [pasteMessage, setPasteMessage] = useState("");
@@ -29,7 +33,11 @@ export default function ConverterCard({
 
       if (text) {
         setInputUrl(text);
-        setPasteMessage("Pasted!");
+        setPasteMessage(
+          t.converter?.pasted ||
+            t.converter?.pasteSuccess ||
+            "URL pasted successfully."
+        );
 
         setTimeout(() => {
           setPasteMessage("");
@@ -37,7 +45,12 @@ export default function ConverterCard({
       }
     } catch (error) {
       console.error("Clipboard error:", error);
-      setPasteMessage("Paste failed");
+
+      setPasteMessage(
+        t.converter?.pasteFailed ||
+          t.converter?.pasteError ||
+          "Unable to paste from clipboard."
+      );
     }
   };
 
@@ -55,8 +68,11 @@ export default function ConverterCard({
     if (!downloadPayload?.downloadUrl) return;
 
     const link = document.createElement("a");
+
     link.href = downloadPayload.downloadUrl;
-    link.download = `${downloadPayload.title || "clearaudio"}.mp3`;
+    link.download = `${
+      downloadPayload.title || "clearaudio"
+    }.mp3`;
     link.target = "_blank";
     link.rel = "noopener noreferrer";
 
@@ -65,9 +81,36 @@ export default function ConverterCard({
     document.body.removeChild(link);
   };
 
-  const isProcessing = uiState === "PROCESSING";
+  // App.jsx uses "CONVERTING"
+  // Keep PROCESSING support as well so existing behavior remains compatible.
+  const isProcessing =
+    uiState === "CONVERTING" ||
+    uiState === "PROCESSING";
+
   const isSuccess = uiState === "SUCCESS";
   const isError = uiState === "ERROR";
+
+  const qualityOptions = {
+    small:
+      t.converter?.qualityOptions?.small ||
+      t.converter?.quality128 ||
+      "128 kbps",
+
+    balanced:
+      t.converter?.qualityOptions?.balanced ||
+      t.converter?.quality192 ||
+      "192 kbps",
+
+    high:
+      t.converter?.qualityOptions?.high ||
+      t.converter?.quality256 ||
+      "256 kbps",
+
+    maximum:
+      t.converter?.qualityOptions?.maximum ||
+      t.converter?.quality320 ||
+      "320 kbps",
+  };
 
   return (
     <div
@@ -85,11 +128,13 @@ export default function ConverterCard({
 
         <div>
           <h2 style={styles.cardTitle}>
-            Convert YouTube to MP3
+            {t.converter?.title || "YouTube to MP3 Converter"}
           </h2>
 
           <p style={styles.cardSubtitle}>
-            Paste a YouTube video link to get started.
+            {t.converter?.subtitle ||
+              t.converter?.description ||
+              "Convert YouTube videos to high-quality MP3 audio."}
           </p>
         </div>
       </div>
@@ -104,11 +149,15 @@ export default function ConverterCard({
 
             <div style={styles.successContent}>
               <strong style={styles.successTitle}>
-                Conversion complete
+                {t.converter?.successTitle ||
+                  t.converter?.success ||
+                  "Conversion complete"}
               </strong>
 
               <span style={styles.successText}>
-                Your MP3 is ready to download.
+                {t.converter?.successText ||
+                  t.converter?.completed ||
+                  "Your MP3 is ready to download."}
               </span>
             </div>
           </div>
@@ -120,11 +169,14 @@ export default function ConverterCard({
 
             <div style={styles.fileInfo}>
               <strong style={styles.fileTitle}>
-                {downloadPayload?.title || "Extracted Audio Track"}
+                {downloadPayload?.title ||
+                  t.converter?.fileFallback ||
+                  "Extracted Audio Track"}
               </strong>
 
               <span style={styles.fileMeta}>
-                MP3 • {quality} kbps
+                {t.converter?.fileType || "MP3"} • {quality}{" "}
+                {t.converter?.bitrate || "kbps"}
               </span>
             </div>
           </div>
@@ -135,7 +187,8 @@ export default function ConverterCard({
             style={styles.submitBtn}
           >
             <Download size={18} />
-            Download MP3
+
+            {t.converter?.download || "Download MP3"}
           </button>
 
           <button
@@ -144,7 +197,10 @@ export default function ConverterCard({
             style={styles.secondaryBtn}
           >
             <RotateCcw size={17} />
-            Convert another video
+
+            {t.converter?.another ||
+              t.converter?.reset ||
+              "Convert another"}
           </button>
         </div>
       ) : (
@@ -152,15 +208,22 @@ export default function ConverterCard({
           {/* URL INPUT */}
           <div style={styles.inputWrapper}>
             <label style={styles.fieldLabel}>
-              YouTube video URL
+              {t.converter?.urlLabel ||
+                t.converter?.inputLabel ||
+                "YouTube URL"}
             </label>
 
             <div style={styles.inputContainer}>
               <input
                 type="url"
                 value={inputUrl}
-                onChange={(e) => setInputUrl(e.target.value)}
-                placeholder="https://www.youtube.com/watch?v=..."
+                onChange={(e) =>
+                  setInputUrl(e.target.value)
+                }
+                placeholder={
+                  t.converter?.placeholder ||
+                  "Paste YouTube video URL here..."
+                }
                 style={styles.textInput}
                 disabled={isProcessing}
                 autoComplete="off"
@@ -174,7 +237,9 @@ export default function ConverterCard({
               >
                 <Clipboard size={14} />
 
-                {pasteMessage || "Paste"}
+                {pasteMessage ||
+                  t.converter?.paste ||
+                  "Paste"}
               </button>
             </div>
           </div>
@@ -184,34 +249,39 @@ export default function ConverterCard({
             {/* QUALITY */}
             <div style={styles.dropdownWrapper}>
               <label style={styles.fieldLabel}>
-                Audio quality
+                {t.converter?.quality ||
+                  t.converter?.qualityLabel ||
+                  "Audio quality"}
               </label>
 
               <select
                 value={quality}
-                onChange={(e) => setQuality(e.target.value)}
+                onChange={(e) =>
+                  setQuality(e.target.value)
+                }
                 style={styles.selectMenu}
                 disabled={isProcessing}
               >
                 <option value="128">
-                  128 kbps — Small
+                  {qualityOptions.small}
                 </option>
 
                 <option value="192">
-                  192 kbps — Balanced
+                  {qualityOptions.balanced}
                 </option>
 
                 <option value="256">
-                  256 kbps — High
+                  {qualityOptions.high}
                 </option>
 
                 <option value="320">
-                  320 kbps — Maximum
+                  {qualityOptions.maximum}
                 </option>
               </select>
 
               <p style={styles.dropdownSubtext}>
-                Higher bitrate usually means a larger file.
+                {t.converter?.qualityHint ||
+                  "Higher bitrate provides better audio quality."}
               </p>
             </div>
           </div>
@@ -237,13 +307,15 @@ export default function ConverterCard({
 
             <div>
               <p style={styles.checkboxText}>
-                I confirm that I have the right or permission
-                to download and convert this content.
+                {t.converter?.rights ||
+                  t.converter?.rightsText ||
+                  "I confirm that I have the right to download this content."}
               </p>
 
               <span style={styles.checkboxHint}>
-                Please only convert content you are legally
-                allowed to use.
+                {t.converter?.rightsHint ||
+                  t.converter?.rightsConfirmation ||
+                  "Only download content you are legally allowed to use."}
               </span>
             </div>
           </label>
@@ -253,8 +325,8 @@ export default function ConverterCard({
             <ShieldCheck size={17} />
 
             <span>
-              Supported: individual YouTube videos, Shorts,
-              embeds and YouTube Music links.
+              {t.converter?.supported ||
+                "Supports YouTube videos, Shorts, and YouTube Music links."}
             </span>
           </div>
 
@@ -282,13 +354,16 @@ export default function ConverterCard({
                   style={styles.spinner}
                 />
 
-                Converting...
+                {t.converter?.converting ||
+                  t.converter?.processing ||
+                  "Converting..."}
               </>
             ) : (
               <>
                 <Music size={18} />
 
-                Convert to MP3
+                {t.converter?.convert ||
+                  "Convert to MP3"}
               </>
             )}
           </button>
@@ -300,6 +375,7 @@ export default function ConverterCard({
 
               <span>
                 {errorMessage ||
+                  t.converter?.error ||
                   "Something went wrong. Please try again."}
               </span>
             </div>
@@ -307,10 +383,9 @@ export default function ConverterCard({
 
           {/* LEGAL */}
           <p style={styles.legalFineprint}>
-            ClearAudio only processes supported links. You are
-            responsible for ensuring that you have the necessary
-            rights or permission to download and convert the
-            content.
+            {t.converter?.legal ||
+              t.converter?.rightsText ||
+              "By using this converter, you confirm that you have the necessary rights to download the content."}
           </p>
         </form>
       )}
@@ -320,12 +395,12 @@ export default function ConverterCard({
 
 const styles = {
   card: {
-    background:
-      "linear-gradient(145deg, var(--card-bg), var(--feature-bg))",
-    padding: "32px",
-    borderRadius: "26px",
+    background: "var(--card-bg)",
+    padding: "28px",
+    borderRadius: "24px",
     border: "1px solid var(--border-color)",
-    boxShadow: "var(--card-shadow)",
+    boxShadow:
+      "0 20px 50px rgba(0, 0, 0, 0.08)",
     width: "100%",
     maxWidth: "640px",
     position: "relative",
@@ -335,14 +410,15 @@ const styles = {
 
   topGlow: {
     position: "absolute",
-    top: "-120px",
-    right: "-100px",
-    width: "260px",
-    height: "260px",
+    top: "-140px",
+    right: "-120px",
+    width: "360px",
+    height: "360px",
     borderRadius: "50%",
     background:
-      "radial-gradient(circle, var(--accent-glow), transparent 70%)",
+      "radial-gradient(circle, rgba(255, 20, 70, 0.16) 0%, rgba(255, 20, 70, 0.08) 30%, rgba(255, 20, 70, 0.02) 55%, transparent 72%)",
     pointerEvents: "none",
+    zIndex: 0,
   },
 
   cardHeader: {
@@ -355,30 +431,31 @@ const styles = {
   },
 
   iconBox: {
-    width: "46px",
-    height: "46px",
-    minWidth: "46px",
+    width: "48px",
+    height: "48px",
+    minWidth: "48px",
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
     borderRadius: "14px",
     background:
-      "linear-gradient(135deg, var(--accent-color), #ff1744)",
+      "linear-gradient(135deg, #ff1744, #ff003c)",
     color: "#ffffff",
     boxShadow:
-      "0 8px 25px rgba(255, 0, 51, 0.25)",
+      "0 10px 26px rgba(255, 0, 55, 0.22)",
   },
 
   cardTitle: {
     margin: 0,
     color: "var(--text-primary)",
-    fontSize: "1.18rem",
+    fontSize: "1.2rem",
     fontWeight: "850",
+    lineHeight: "1.25",
     letterSpacing: "-0.4px",
   },
 
   cardSubtitle: {
-    margin: "4px 0 0",
+    margin: "5px 0 0",
     color: "var(--text-muted)",
     fontSize: "0.78rem",
     lineHeight: "1.5",
@@ -403,33 +480,39 @@ const styles = {
     position: "relative",
     display: "flex",
     alignItems: "center",
+    minHeight: "62px",
     background: "var(--input-bg)",
-    border: "1px solid var(--input-border)",
-    borderRadius: "14px",
+    border: "1px solid rgba(120, 120, 130, 0.28)",
+    borderRadius: "15px",
     overflow: "hidden",
-    transition: "all 0.2s ease",
+    transition:
+      "border-color 0.2s ease, box-shadow 0.2s ease",
   },
 
   textInput: {
     width: "100%",
-    padding: "16px 90px 16px 16px",
+    height: "60px",
+    padding: "14px 95px 14px 16px",
     background: "transparent",
     border: "none",
     color: "var(--text-primary)",
-    fontSize: "0.92rem",
+    fontSize: "0.9rem",
     outline: "none",
   },
 
   pasteBtn: {
     position: "absolute",
     right: "8px",
+    top: "50%",
+    transform: "translateY(-50%)",
     display: "flex",
     alignItems: "center",
-    gap: "5px",
-    padding: "8px 11px",
+    justifyContent: "center",
+    gap: "6px",
+    padding: "9px 12px",
     background: "var(--soft-bg)",
-    border: "1px solid var(--border-color)",
-    borderRadius: "9px",
+    border: "1px solid rgba(120, 120, 130, 0.22)",
+    borderRadius: "10px",
     color: "var(--text-primary)",
     fontSize: "0.78rem",
     cursor: "pointer",
@@ -441,6 +524,8 @@ const styles = {
     gridTemplateColumns: "1fr",
     gap: "18px",
     marginBottom: "18px",
+    position: "relative",
+    zIndex: 1,
   },
 
   dropdownWrapper: {
@@ -451,10 +536,11 @@ const styles = {
 
   selectMenu: {
     width: "100%",
-    padding: "14px",
+    minHeight: "58px",
+    padding: "0 15px",
     background: "var(--input-bg)",
-    border: "1px solid var(--input-border)",
-    borderRadius: "14px",
+    border: "1px solid rgba(120, 120, 130, 0.28)",
+    borderRadius: "15px",
     color: "var(--text-primary)",
     fontSize: "0.9rem",
     cursor: "pointer",
@@ -473,25 +559,30 @@ const styles = {
     gap: "11px",
     padding: "17px",
     background: "var(--soft-bg)",
-    border: "1px solid var(--border-color)",
+    border: "1px solid rgba(120, 120, 130, 0.20)",
     borderRadius: "15px",
     cursor: "pointer",
     userSelect: "none",
     alignItems: "flex-start",
     marginBottom: "16px",
     transition: "all 0.2s ease",
+    position: "relative",
+    zIndex: 1,
   },
 
   checkboxActive: {
-    borderColor: "var(--accent-border)",
-    background: "var(--accent-soft)",
+    borderColor: "rgba(255, 20, 70, 0.45)",
+    background:
+      "rgba(255, 20, 70, 0.04)",
   },
 
   checkboxInput: {
-    transform: "scale(1.2)",
-    marginTop: "3px",
+    width: "18px",
+    height: "18px",
+    minWidth: "18px",
+    marginTop: "2px",
     cursor: "pointer",
-    accentColor: "var(--accent-color)",
+    accentColor: "#ff1744",
   },
 
   checkboxText: {
@@ -499,7 +590,7 @@ const styles = {
     fontSize: "0.78rem",
     color: "var(--text-secondary)",
     lineHeight: "1.5",
-    fontWeight: "600",
+    fontWeight: "650",
   },
 
   checkboxHint: {
@@ -512,12 +603,13 @@ const styles = {
 
   guidanceBox: {
     width: "100%",
-    padding: "14px 16px",
+    minHeight: "48px",
+    padding: "12px 15px",
     background: "var(--soft-bg)",
-    border: "1px solid var(--border-color)",
+    border: "1px solid rgba(120, 120, 130, 0.20)",
     borderRadius: "14px",
     color: "var(--text-secondary)",
-    fontSize: "0.78rem",
+    fontSize: "0.76rem",
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
@@ -525,18 +617,21 @@ const styles = {
     textAlign: "center",
     marginBottom: "16px",
     fontWeight: "600",
+    lineHeight: "1.4",
+    position: "relative",
+    zIndex: 1,
   },
 
   submitBtn: {
     width: "100%",
     minHeight: "54px",
-    padding: "15px 25px",
+    padding: "14px 22px",
     background:
-      "linear-gradient(135deg, var(--accent-color), #ff1744)",
+      "linear-gradient(135deg, #ff1744, #f5003d)",
     color: "#ffffff",
     border: "none",
     borderRadius: "14px",
-    fontSize: "0.92rem",
+    fontSize: "0.9rem",
     fontWeight: "800",
     cursor: "pointer",
     display: "flex",
@@ -545,8 +640,10 @@ const styles = {
     gap: "8px",
     whiteSpace: "nowrap",
     boxShadow:
-      "0 10px 28px rgba(255, 0, 51, 0.22)",
+      "0 10px 28px rgba(255, 0, 55, 0.20)",
     transition: "all 0.25s ease",
+    position: "relative",
+    zIndex: 1,
   },
 
   submitBtnDisabled: {
@@ -557,13 +654,13 @@ const styles = {
 
   secondaryBtn: {
     width: "100%",
-    minHeight: "54px",
-    padding: "15px 25px",
+    minHeight: "52px",
+    padding: "13px 22px",
     background: "var(--secondary-button-bg)",
     color: "var(--text-primary)",
     border: "1px solid var(--border-color)",
     borderRadius: "14px",
-    fontSize: "0.92rem",
+    fontSize: "0.88rem",
     fontWeight: "750",
     cursor: "pointer",
     display: "flex",
@@ -575,14 +672,14 @@ const styles = {
   successBlock: {
     display: "flex",
     flexDirection: "column",
-    gap: "15px",
+    gap: "14px",
     position: "relative",
     zIndex: 1,
   },
 
   successBox: {
     width: "100%",
-    padding: "17px",
+    padding: "16px",
     background: "rgba(16, 185, 129, 0.08)",
     border: "1px solid rgba(16, 185, 129, 0.25)",
     borderRadius: "14px",
@@ -611,19 +708,19 @@ const styles = {
 
   successTitle: {
     color: "var(--text-primary)",
-    fontSize: "0.9rem",
+    fontSize: "0.88rem",
   },
 
   successText: {
     color: "var(--text-muted)",
-    fontSize: "0.75rem",
+    fontSize: "0.74rem",
   },
 
   fileCard: {
     display: "flex",
     alignItems: "center",
     gap: "12px",
-    padding: "15px",
+    padding: "14px",
     background: "var(--soft-bg)",
     border: "1px solid var(--border-color)",
     borderRadius: "14px",
@@ -663,7 +760,7 @@ const styles = {
 
   errorBox: {
     marginTop: "15px",
-    padding: "15px",
+    padding: "14px",
     background: "rgba(239, 68, 68, 0.08)",
     border: "1px solid rgba(239, 68, 68, 0.25)",
     borderRadius: "14px",
@@ -671,16 +768,19 @@ const styles = {
     display: "flex",
     alignItems: "flex-start",
     gap: "8px",
-    fontSize: "0.85rem",
+    fontSize: "0.82rem",
     lineHeight: "1.5",
   },
 
   legalFineprint: {
-    margin: "16px 0 0",
-    fontSize: "0.68rem",
+    margin: "15px auto 0",
+    maxWidth: "590px",
+    fontSize: "0.67rem",
     color: "var(--text-muted)",
-    lineHeight: "1.6",
+    lineHeight: "1.55",
     textAlign: "center",
+    position: "relative",
+    zIndex: 1,
   },
 
   spinner: {

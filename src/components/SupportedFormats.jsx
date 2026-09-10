@@ -1,793 +1,644 @@
-import React from 'react';
+import React from "react";
+import { useLanguage } from "../context/LanguageContext";
 
-export default function SupportedFormats({ onBackToHome, onGoToFaq }) {
+export default function SupportedFormats({
+  onBackToHome,
+  onGoToFaq,
+}) {
+  const { t } = useLanguage();
+
   const bitrates = [
     {
-      rate: '128 kbps',
-      size: '~1 MB per minute',
-      best: 'Speech, podcasts, lectures, small storage',
+      rate: "128 kbps",
+      size: "~1 MB per minute",
+      best: t.formats.bitrate128,
     },
     {
-      rate: '192 kbps',
-      size: '~1.4 MB per minute',
-      best: 'Balanced default for most music',
+      rate: "192 kbps",
+      size: "~1.4 MB per minute",
+      best: t.formats.bitrate192,
     },
     {
-      rate: '256 kbps',
-      size: '~1.9 MB per minute',
-      best: 'Detailed music on good headphones',
+      rate: "256 kbps",
+      size: "~1.9 MB per minute",
+      best: t.formats.bitrate256,
     },
     {
-      rate: '320 kbps',
-      size: '~2.4 MB per minute',
-      best: 'Maximum MP3 detail from a good source',
+      rate: "320 kbps",
+      size: "~2.4 MB per minute",
+      best: t.formats.bitrate320,
     },
   ];
 
   return (
-    <>
+    <main className="formatsPage">
       <style>{`
-        /* =========================================
-           SUPPORTED FORMATS PAGE
-        ========================================= */
-
-        .supported-formats-page {
-          width: 100%;
-          max-width: 900px;
-          min-width: 0;
+        .formatsPage {
+          width: min(1050px, calc(100% - 48px));
           margin: 0 auto;
-          padding: 32px 24px 70px;
-          box-sizing: border-box;
-
-          overflow-x: hidden;
-          overflow-y: visible;
-
+          padding: 48px 0 80px;
           color: var(--text-primary);
         }
 
-        .supported-formats-page *,
-        .supported-formats-page *::before,
-        .supported-formats-page *::after {
-          box-sizing: border-box;
-          min-width: 0;
-        }
-
-
-        /* =========================================
-           BREADCRUMBS
-        ========================================= */
-
-        .supported-breadcrumbs {
-          width: 100%;
-          max-width: 100%;
-
+        /* Breadcrumbs */
+        .formatsBreadcrumbs {
           display: flex;
           align-items: center;
           flex-wrap: wrap;
-
           gap: 8px;
-
-          margin: 0 0 28px;
-
+          margin-bottom: 28px;
           font-size: 0.85rem;
-          line-height: 1.5;
-          font-weight: 600;
-
+          font-weight: 500;
           color: var(--text-muted);
-
-          overflow-wrap: anywhere;
         }
 
-        .supported-home-link {
+        .formatsBreadcrumbLink {
           color: var(--accent-color);
+          font-weight: 700;
           cursor: pointer;
-          text-decoration: underline;
-          flex-shrink: 0;
+          transition: opacity 0.2s ease;
         }
 
-        .supported-divider {
-          color: var(--text-muted);
-          flex-shrink: 0;
+        .formatsBreadcrumbLink:hover {
+          opacity: 0.75;
         }
 
-        .supported-current {
-          color: var(--text-secondary);
-          overflow-wrap: anywhere;
+        .formatsBreadcrumbDivider {
+          color: var(--border-color);
         }
 
-
-        /* =========================================
-           MAIN TITLE
-        ========================================= */
-
-        .supported-title {
-          display: block;
-
-          width: 100%;
-          max-width: 100%;
-          min-width: 0;
-
-          margin: 0 0 16px;
-
-          font-size: clamp(2rem, 6vw, 3rem);
-          line-height: 1.08;
+        /* Header */
+        .formatsTitle {
+          margin: 0 0 14px;
+          font-size: 2.7rem;
+          line-height: 1.12;
+          letter-spacing: -1.2px;
           font-weight: 850;
-          letter-spacing: -1.5px;
-
           color: var(--text-primary);
-
-          overflow-wrap: anywhere;
-          word-break: normal;
         }
 
-
-        /* =========================================
-           LEAD
-        ========================================= */
-
-        .supported-lead {
-          width: 100%;
+        .formatsSubtitle {
           max-width: 760px;
-          min-width: 0;
-
-          margin: 0 0 36px;
-
-          font-size: clamp(0.95rem, 2vw, 1.1rem);
-          line-height: 1.65;
-
+          margin: 0 0 42px;
           color: var(--text-muted);
-
-          overflow-wrap: anywhere;
-          word-break: normal;
+          font-size: 1.02rem;
+          line-height: 1.7;
         }
 
+        /* Section */
+        .formatsSection {
+          margin-top: 38px;
+        }
 
-        /* =========================================
-           SECTION TITLES
-        ========================================= */
-
-        .supported-section-title {
-          width: 100%;
-          max-width: 100%;
-          min-width: 0;
-
-          margin: 34px 0 14px;
-
-          font-size: clamp(1.2rem, 3vw, 1.5rem);
-          line-height: 1.3;
+        .formatsSectionTitle {
+          margin: 0 0 16px;
+          font-size: 1.4rem;
           font-weight: 800;
-
           color: var(--text-primary);
-
-          overflow-wrap: anywhere;
-          word-break: normal;
         }
 
-
-        /* =========================================
-           BODY TEXT
-        ========================================= */
-
-        .supported-body {
-          width: 100%;
-          max-width: 100%;
-          min-width: 0;
-
-          margin: 0 0 20px;
-
+        .formatsSectionText {
+          max-width: 850px;
+          margin: 0 0 22px;
+          color: var(--text-secondary);
           font-size: 0.95rem;
-          line-height: 1.75;
-
-          color: var(--text-secondary);
-
-          overflow-wrap: anywhere;
-          word-break: normal;
+          line-height: 1.7;
         }
 
+        /* Supported link cards */
+        .formatCards {
+          display: grid;
+          grid-template-columns: repeat(4, 1fr);
+          gap: 14px;
+        }
 
-        /* =========================================
-           LINK FORMAT / CODE BOX
-        ========================================= */
-
-        .supported-code {
-          display: block;
-
-          width: 100%;
-          max-width: 100%;
+        .formatCard {
           min-width: 0;
-
-          padding: 16px 18px;
-          margin: 0 0 18px;
-
-          background: var(--soft-bg);
-          border: 1px solid var(--border-color);
-          border-radius: 14px;
-
-          color: var(--text-primary);
-
-          overflow-x: hidden;
-          overflow-y: hidden;
-
-          word-break: break-word;
-          overflow-wrap: anywhere;
-
-          white-space: normal;
-        }
-
-        .supported-code code {
-          display: block;
-
-          width: 100%;
-          max-width: 100%;
-          min-width: 0;
-
-          font-family:
-            ui-monospace,
-            SFMono-Regular,
-            Menlo,
-            Monaco,
-            Consolas,
-            monospace;
-
-          font-size: 0.85rem;
-          line-height: 1.9;
-
-          color: var(--text-primary);
-
-          white-space: normal;
-          word-break: break-all;
-          overflow-wrap: anywhere;
-        }
-
-        .supported-code br {
-          display: block;
-        }
-
-
-        /* =========================================
-           TABLE WRAPPER
-        ========================================= */
-
-        .supported-table-scroll {
-          display: block;
-
-          width: 100%;
-          max-width: 100%;
-          min-width: 0;
-
-          overflow-x: auto;
-          overflow-y: hidden;
-
-          -webkit-overflow-scrolling: touch;
-
-          border: 1px solid var(--border-color);
-          border-radius: 14px;
-
+          padding: 20px;
           background: var(--card-bg);
+          border: 1px solid var(--border-color);
+          border-radius: 18px;
+          box-shadow: var(--shadow-sm);
+          transition:
+            transform 0.25s ease,
+            box-shadow 0.25s ease,
+            border-color 0.25s ease;
         }
 
+        .formatCard:hover {
+          transform: translateY(-3px);
+          box-shadow: var(--shadow-md);
+          border-color: var(--accent-border);
+        }
 
-        /* =========================================
-           TABLE
-        ========================================= */
-
-        .supported-table {
-          width: 100%;
-          min-width: 620px;
-
-          border-collapse: collapse;
-
-          text-align: left;
-
+        .formatIcon {
+          width: 42px;
+          height: 42px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          margin-bottom: 14px;
+          border-radius: 12px;
+          background: var(--accent-soft);
+          color: var(--accent-color);
           font-size: 0.9rem;
-
-          background: var(--card-bg);
+          font-weight: 900;
         }
 
-        .supported-table th {
-          padding: 14px 16px;
-
-          background: var(--soft-bg);
-
-          border-bottom: 1px solid var(--border-color);
-
+        .formatCardTitle {
+          margin: 0;
           color: var(--text-primary);
-
+          font-size: 0.95rem;
           font-weight: 800;
-
-          white-space: nowrap;
+          line-height: 1.35;
         }
 
-        .supported-table td {
-          padding: 14px 16px;
-
-          border-bottom: 1px solid var(--border-color);
-
-          color: var(--text-secondary);
-
+        .formatCardText {
+          margin: 7px 0 0;
+          color: var(--text-muted);
+          font-size: 0.78rem;
           line-height: 1.55;
-
-          vertical-align: top;
-
-          overflow-wrap: anywhere;
         }
 
-        .supported-table tbody tr:last-child td {
+        /* Output */
+        .outputCard {
+          display: flex;
+          align-items: center;
+          gap: 16px;
+          padding: 22px;
+          background:
+            linear-gradient(
+              135deg,
+              var(--card-bg),
+              var(--accent-soft)
+            );
+          border: 1px solid var(--border-color);
+          border-radius: 18px;
+          box-shadow: var(--shadow-sm);
+        }
+
+        .outputBadge {
+          width: 52px;
+          height: 52px;
+          min-width: 52px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          border-radius: 14px;
+          background: var(--accent-color);
+          color: var(--page-bg);
+          font-size: 0.78rem;
+          font-weight: 900;
+        }
+
+        .outputTitle {
+          margin: 0 0 5px;
+          color: var(--text-primary);
+          font-size: 1rem;
+          font-weight: 800;
+        }
+
+        .outputText {
+          margin: 0;
+          color: var(--text-muted);
+          font-size: 0.86rem;
+          line-height: 1.6;
+        }
+
+        /* Bitrate table */
+        .bitrateTableWrap {
+          width: 100%;
+          overflow-x: auto;
+          border: 1px solid var(--border-color);
+          border-radius: 18px;
+          background: var(--card-bg);
+          box-shadow: var(--shadow-sm);
+        }
+
+        .bitrateTable {
+          width: 100%;
+          min-width: 680px;
+          border-collapse: collapse;
+        }
+
+        .bitrateTable th {
+          padding: 16px 18px;
+          text-align: left;
+          color: var(--text-muted);
+          background: var(--soft-bg);
+          border-bottom: 1px solid var(--border-color);
+          font-size: 0.78rem;
+          font-weight: 800;
+          text-transform: uppercase;
+          letter-spacing: 0.4px;
+        }
+
+        .bitrateTable td {
+          padding: 17px 18px;
+          color: var(--text-secondary);
+          border-bottom: 1px solid var(--border-color);
+          font-size: 0.84rem;
+          line-height: 1.5;
+          vertical-align: top;
+        }
+
+        .bitrateTable tr:last-child td {
           border-bottom: none;
         }
 
-        .supported-table td:first-child {
+        .bitrateValue {
           color: var(--text-primary);
           font-weight: 800;
           white-space: nowrap;
         }
 
-
-        /* =========================================
-           NOTE
-        ========================================= */
-
-        .supported-note {
-          width: 100%;
-          max-width: 100%;
-          min-width: 0;
-
-          margin: 14px 0 0;
-
-          color: var(--text-muted);
-
-          font-size: 0.86rem;
-          line-height: 1.65;
-
-          font-style: italic;
-
-          overflow-wrap: anywhere;
-          word-break: normal;
-        }
-
-        .supported-note strong {
-          color: var(--text-primary);
-          font-style: normal;
-        }
-
-
-        /* =========================================
-           PROCESSING LIMITS
-        ========================================= */
-
-        .supported-limits {
-          width: 100%;
-          max-width: 100%;
-          min-width: 0;
-
+        /* Important note */
+        .importantBox {
           display: flex;
-          flex-direction: column;
-
-          gap: 10px;
-
-          margin: 0;
-          padding: 0;
-
-          list-style: none;
+          align-items: flex-start;
+          gap: 14px;
+          margin-top: 20px;
+          padding: 19px 20px;
+          background: var(--accent-soft);
+          border: 1px solid var(--accent-border);
+          border-radius: 16px;
         }
 
-        .supported-limit-item {
-          width: 100%;
-          max-width: 100%;
-          min-width: 0;
-
-          padding: 14px 16px;
-
-          background: var(--soft-bg);
-
-          border: 1px solid var(--border-color);
-          border-radius: 13px;
-
-          color: var(--text-secondary);
-
-          font-size: 0.94rem;
-          line-height: 1.55;
-
-          overflow-wrap: anywhere;
-          word-break: normal;
+        .importantMark {
+          width: 34px;
+          height: 34px;
+          min-width: 34px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          border-radius: 10px;
+          background: var(--accent-color);
+          color: var(--page-bg);
+          font-size: 0.85rem;
+          font-weight: 900;
         }
 
-        .supported-limit-item strong {
+        .importantContent strong {
+          display: block;
+          margin-bottom: 4px;
           color: var(--text-primary);
+          font-size: 0.88rem;
+          font-weight: 800;
         }
 
-
-        /* =========================================
-           BOTTOM TEXT
-        ========================================= */
-
-        .supported-bottom {
-          width: 100%;
-          max-width: 100%;
-          min-width: 0;
-
-          margin: 28px 0 0;
-
+        .importantContent p {
+          margin: 0;
           color: var(--text-secondary);
-
-          font-size: 0.94rem;
-          line-height: 1.65;
-
-          overflow-wrap: anywhere;
+          font-size: 0.82rem;
+          line-height: 1.55;
         }
 
-        .supported-link {
-          color: var(--accent-color);
+        /* Limits */
+        .limitsGrid {
+          display: grid;
+          grid-template-columns: repeat(4, 1fr);
+          gap: 14px;
+        }
 
-          text-decoration: underline;
+        .limitCard {
+          padding: 19px;
+          background: var(--card-bg);
+          border: 1px solid var(--border-color);
+          border-radius: 16px;
+          box-shadow: var(--shadow-sm);
+        }
 
-          cursor: pointer;
-
+        .limitLabel {
+          margin: 0 0 8px;
+          color: var(--text-muted);
+          font-size: 0.75rem;
           font-weight: 700;
+          line-height: 1.45;
         }
 
+        .limitValue {
+          margin: 0;
+          color: var(--text-primary);
+          font-size: 0.9rem;
+          font-weight: 800;
+          line-height: 1.45;
+        }
 
-        /* =========================================
-           TABLET
-        ========================================= */
+        /* Bottom CTA */
+        .formatsBottom {
+          margin-top: 48px;
+          padding: 26px;
+          text-align: center;
+          background:
+            linear-gradient(
+              135deg,
+              var(--card-bg),
+              var(--accent-soft)
+            );
+          border: 1px solid var(--border-color);
+          border-radius: 20px;
+          box-shadow: var(--shadow-sm);
+        }
 
-        @media (max-width: 768px) {
+        .formatsBottomText {
+          max-width: 760px;
+          margin: 0 auto 18px;
+          color: var(--text-secondary);
+          font-size: 0.9rem;
+          line-height: 1.65;
+        }
 
-          .supported-formats-page {
-            width: 100%;
-            max-width: 100%;
-            margin: 0;
+        .formatsFaqButton {
+          display: inline-flex;
+          align-items: center;
+          gap: 5px;
+          padding: 0;
+          border: none;
+          background: transparent;
+          color: var(--accent-color);
+          font: inherit;
+          font-weight: 800;
+          cursor: pointer;
+        }
 
-            padding: 28px 20px 55px;
+        .formatsFaqButton:hover {
+          text-decoration: underline;
+        }
+
+        .formatsStartButton {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          min-height: 48px;
+          padding: 12px 22px;
+          border: none;
+          border-radius: 12px;
+          background: var(--accent-color);
+          color: var(--page-bg);
+          font-size: 0.86rem;
+          font-weight: 800;
+          cursor: pointer;
+          transition:
+            transform 0.2s ease,
+            opacity 0.2s ease;
+        }
+
+        .formatsStartButton:hover {
+          transform: translateY(-2px);
+          opacity: 0.9;
+        }
+
+        /* Tablet */
+        @media (max-width: 900px) {
+          .formatCards {
+            grid-template-columns: repeat(2, 1fr);
           }
 
-          .supported-title {
-            font-size: clamp(2rem, 7vw, 2.5rem);
-            letter-spacing: -1px;
-          }
-
-          .supported-lead {
-            font-size: 0.98rem;
-          }
-
-          .supported-section-title {
-            font-size: 1.3rem;
-          }
-
-          .supported-code {
-            padding: 14px;
-          }
-
-          .supported-code code {
-            font-size: 0.78rem;
-          }
-
-          .supported-table {
-            min-width: 580px;
+          .limitsGrid {
+            grid-template-columns: repeat(2, 1fr);
           }
         }
 
-
-        /* =========================================
-           MOBILE
-        ========================================= */
-
+        /* Mobile */
         @media (max-width: 600px) {
-
-          .supported-formats-page {
-            width: 100%;
-            max-width: 100%;
-            min-width: 0;
-
-            margin: 0;
-            padding: 22px 16px 45px;
-
-            overflow-x: hidden;
+          .formatsPage {
+            width: calc(100% - 28px);
+            padding: 32px 0 55px;
           }
 
-
-          .supported-breadcrumbs {
-            width: 100%;
-            margin-bottom: 22px;
-
-            font-size: 0.78rem;
-
-            gap: 6px;
-          }
-
-
-          .supported-title {
-            width: 100%;
-            max-width: 100%;
-
+          .formatsTitle {
             font-size: 2rem;
-            line-height: 1.1;
-
             letter-spacing: -0.8px;
-
-            overflow-wrap: anywhere;
           }
 
-
-          .supported-lead {
-            width: 100%;
-            max-width: 100%;
-
-            font-size: 0.92rem;
-            line-height: 1.6;
-
-            margin-bottom: 28px;
+          .formatsSubtitle {
+            font-size: 0.9rem;
+            margin-bottom: 32px;
           }
 
-
-          .supported-section-title {
-            width: 100%;
-
-            margin-top: 28px;
-            margin-bottom: 13px;
-
-            font-size: 1.2rem;
-            line-height: 1.3;
+          .formatsSection {
+            margin-top: 30px;
           }
 
-
-          .supported-body {
-            width: 100%;
-
-            font-size: 0.88rem;
-            line-height: 1.65;
-
-            margin-bottom: 18px;
+          .formatsSectionTitle {
+            font-size: 1.15rem;
           }
 
-
-          /* URL BOX */
-          .supported-code {
-            width: 100%;
-            max-width: 100%;
-
-            padding: 13px;
-
-            border-radius: 12px;
-
-            overflow: hidden;
+          .formatsSectionText {
+            font-size: 0.87rem;
           }
 
-          .supported-code code {
-            width: 100%;
-            max-width: 100%;
-
-            font-size: 0.68rem;
-            line-height: 1.9;
-
-            white-space: normal;
-
-            word-break: break-all;
-            overflow-wrap: anywhere;
+          .formatCards {
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
           }
 
-
-          /* TABLE */
-          .supported-table-scroll {
-            width: 100%;
-            max-width: 100%;
-
-            overflow-x: auto;
-
-            border-radius: 12px;
+          .formatCard {
+            padding: 16px;
+            border-radius: 15px;
           }
 
-          .supported-table {
-            min-width: 540px;
-
-            font-size: 0.78rem;
+          .formatIcon {
+            width: 38px;
+            height: 38px;
+            margin-bottom: 11px;
           }
 
-          .supported-table th,
-          .supported-table td {
-            padding: 11px 12px;
+          .formatCardTitle {
+            font-size: 0.84rem;
           }
 
-
-          .supported-note {
-            width: 100%;
-
-            font-size: 0.76rem;
-            line-height: 1.6;
+          .formatCardText {
+            font-size: 0.7rem;
           }
 
-
-          .supported-limit-item {
-            width: 100%;
-
-            padding: 12px 13px;
-
-            font-size: 0.82rem;
-            line-height: 1.55;
+          .outputCard {
+            padding: 17px;
           }
 
+          .outputBadge {
+            width: 45px;
+            height: 45px;
+            min-width: 45px;
+          }
 
-          .supported-bottom {
-            width: 100%;
+          .limitsGrid {
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+          }
 
-            font-size: 0.83rem;
-            line-height: 1.6;
+          .limitCard {
+            padding: 15px;
+          }
+
+          .limitValue {
+            font-size: 0.8rem;
+          }
+
+          .importantBox {
+            padding: 16px;
+          }
+
+          .formatsBottom {
+            padding: 21px 17px;
           }
         }
 
-
-        /* =========================================
-           SMALL PHONES
-        ========================================= */
-
+        /* Small phones */
         @media (max-width: 380px) {
-
-          .supported-formats-page {
-            width: 100%;
-            max-width: 100%;
-
-            padding-left: 12px;
-            padding-right: 12px;
+          .formatsPage {
+            width: calc(100% - 20px);
           }
 
-
-          .supported-title {
-            font-size: 1.72rem;
-            letter-spacing: -0.5px;
+          .formatsTitle {
+            font-size: 1.75rem;
           }
 
-
-          .supported-lead {
-            font-size: 0.85rem;
+          .formatCards {
+            grid-template-columns: 1fr;
           }
 
-
-          .supported-section-title {
-            font-size: 1.08rem;
+          .limitsGrid {
+            grid-template-columns: 1fr;
           }
 
-
-          .supported-body {
-            font-size: 0.83rem;
-          }
-
-
-          .supported-code {
-            padding: 11px;
-          }
-
-
-          .supported-code code {
-            font-size: 0.62rem;
-          }
-
-
-          .supported-table {
-            min-width: 500px;
-          }
-
-
-          .supported-table th,
-          .supported-table td {
-            padding: 10px;
-          }
-
-
-          .supported-limit-item {
-            font-size: 0.78rem;
-          }
-
-
-          .supported-bottom {
-            font-size: 0.78rem;
+          .outputCard {
+            align-items: flex-start;
           }
         }
       `}</style>
 
+      {/* Breadcrumbs */}
+      <div className="formatsBreadcrumbs">
+        <span
+          className="formatsBreadcrumbLink"
+          onClick={onBackToHome}
+        >
+          {t.formats.breadcrumbHome}
+        </span>
 
-      <main className="supported-formats-page">
+        <span className="formatsBreadcrumbDivider">
+          /
+        </span>
 
-        {/* Breadcrumbs */}
-        <div className="supported-breadcrumbs">
+        <span>
+          {t.formats.breadcrumbTitle}
+        </span>
+      </div>
 
-          <span
-            className="supported-home-link"
-            onClick={onBackToHome}
-          >
-            Home
-          </span>
+      {/* Header */}
+      <h1 className="formatsTitle">
+        {t.formats.title}
+      </h1>
 
-          <span className="supported-divider">
-            /
-          </span>
+      <p className="formatsSubtitle">
+        {t.formats.subtitle}
+      </p>
 
-          <span className="supported-current">
-            Supported formats
-          </span>
+      {/* Accepted formats */}
+      <section className="formatsSection">
+        <h2 className="formatsSectionTitle">
+          {t.formats.acceptedTitle}
+        </h2>
 
+        <p className="formatsSectionText">
+          {t.formats.acceptedText}
+        </p>
+
+        <div className="formatCards">
+          <div className="formatCard">
+            <div className="formatIcon">YT</div>
+
+            <h3 className="formatCardTitle">
+              {t.formats.youtubeVideo}
+            </h3>
+
+            <p className="formatCardText">
+              Individual YouTube video links.
+            </p>
+          </div>
+
+          <div className="formatCard">
+            <div className="formatIcon">S</div>
+
+            <h3 className="formatCardTitle">
+              {t.formats.shorts}
+            </h3>
+
+            <p className="formatCardText">
+              YouTube Shorts links.
+            </p>
+          </div>
+
+          <div className="formatCard">
+            <div className="formatIcon">▶</div>
+
+            <h3 className="formatCardTitle">
+              {t.formats.embed}
+            </h3>
+
+            <p className="formatCardText">
+              Supported embedded video links.
+            </p>
+          </div>
+
+          <div className="formatCard">
+            <div className="formatIcon">♫</div>
+
+            <h3 className="formatCardTitle">
+              {t.formats.music}
+            </h3>
+
+            <p className="formatCardText">
+              YouTube Music video links.
+            </p>
+          </div>
         </div>
+      </section>
 
-
-        {/* Heading */}
-        <h1 className="supported-title">
-          Supported formats, bitrates and limits
-        </h1>
-
-
-        <p className="supported-lead">
-          Exactly what this converter accepts and produces —
-          no vague claims.
-        </p>
-
-
-        {/* Accepted formats */}
-        <h2 className="supported-section-title">
-          Accepted link formats
+      {/* Output */}
+      <section className="formatsSection">
+        <h2 className="formatsSectionTitle">
+          {t.formats.output}
         </h2>
 
+        <div className="outputCard">
+          <div className="outputBadge">
+            MP3
+          </div>
 
-        <div className="supported-code">
-          <code>
-            https://www.youtube.com/watch?v=VIDEOID
-            <br />
-            https://youtu.be/VIDEOID
-            <br />
-            https://www.youtube.com/shorts/VIDEOID
-            <br />
-            https://www.youtube.com/embed/VIDEOID
-            <br />
-            https://music.youtube.com/watch?v=VIDEOID
-          </code>
+          <div>
+            <h3 className="outputTitle">
+              {t.formats.outputTitle}
+            </h3>
+
+            <p className="outputText">
+              {t.formats.outputText}
+            </p>
+          </div>
         </div>
+      </section>
 
-
-        <p className="supported-body">
-          Playlists, channels, search pages, private or
-          unlisted-restricted content and links from other
-          websites are rejected by the server before any
-          processing starts.
-        </p>
-
-
-        {/* Output */}
-        <h2 className="supported-section-title">
-          Output format
+      {/* Bitrates */}
+      <section className="formatsSection">
+        <h2 className="formatsSectionTitle">
+          {t.formats.bitrateTitle}
         </h2>
 
-
-        <p className="supported-body">
-          Output is always MP3, the most widely compatible
-          audio format. We do not currently offer M4A, WAV
-          or FLAC, and we would rather list one format that
-          always works than advertise options we do not
-          support.
-        </p>
-
-
-        {/* Bitrate */}
-        <h2 className="supported-section-title">
-          Bitrate comparison
-        </h2>
-
-
-        <div className="supported-table-scroll">
-
-          <table className="supported-table">
-
+        <div className="bitrateTableWrap">
+          <table className="bitrateTable">
             <thead>
               <tr>
-                <th>Bitrate</th>
-                <th>Approximate size</th>
-                <th>Best for</th>
+                <th>{t.formats.bitrate}</th>
+                <th>{t.formats.approximateSize}</th>
+                <th>{t.formats.bestFor}</th>
               </tr>
             </thead>
 
             <tbody>
-
-              {bitrates.map((item, index) => (
-                <tr key={index}>
-
-                  <td>
+              {bitrates.map((item) => (
+                <tr key={item.rate}>
+                  <td className="bitrateValue">
                     {item.rate}
                   </td>
 
@@ -798,84 +649,100 @@ export default function SupportedFormats({ onBackToHome, onGoToFaq }) {
                   <td>
                     {item.best}
                   </td>
-
                 </tr>
               ))}
-
             </tbody>
-
           </table>
-
         </div>
 
+        <div className="importantBox">
+          <div className="importantMark">
+            !
+          </div>
 
-        <p className="supported-note">
-          <strong>Important:</strong> bitrate sets a ceiling,
-          not a floor. If the source audio was uploaded at a
-          low quality, choosing 320 kbps produces a larger
-          file that still sounds the same. Pick the smallest
-          bitrate that sounds right to you.
-        </p>
+          <div className="importantContent">
+            <strong>
+              {t.formats.important}
+            </strong>
 
+            <p>
+              {t.formats.importantText}
+            </p>
+          </div>
+        </div>
+      </section>
 
-        {/* Processing limits */}
-        <h2 className="supported-section-title">
-          Processing limits
+      {/* Limits */}
+      <section className="formatsSection">
+        <h2 className="formatsSectionTitle">
+          {t.formats.limitsTitle}
         </h2>
 
+        <div className="limitsGrid">
+          <div className="limitCard">
+            <p className="limitLabel">
+              {t.formats.maximumDuration}
+            </p>
 
-        <ul className="supported-limits">
+            <p className="limitValue">
+              {t.formats.maximumDurationValue}
+            </p>
+          </div>
 
-          <li className="supported-limit-item">
-            <strong>Maximum duration:</strong>{' '}
-            90 minutes per video
-          </li>
+          <div className="limitCard">
+            <p className="limitLabel">
+              {t.formats.maximumOutputSize}
+            </p>
 
-          <li className="supported-limit-item">
-            <strong>Maximum output size:</strong>{' '}
-            200 MB
-          </li>
+            <p className="limitValue">
+              {t.formats.maximumOutputSizeValue}
+            </p>
+          </div>
 
-          <li className="supported-limit-item">
-            <strong>Fair-use rate limit:</strong>{' '}
-            10 conversions per hour per device
-          </li>
+          <div className="limitCard">
+            <p className="limitLabel">
+              {t.formats.fairUse}
+            </p>
 
-          <li className="supported-limit-item">
-            <strong>Download link and temporary file lifetime:</strong>{' '}
-            60 minutes
-          </li>
+            <p className="limitValue">
+              {t.formats.fairUseValue}
+            </p>
+          </div>
 
-        </ul>
+          <div className="limitCard">
+            <p className="limitLabel">
+              {t.formats.downloadLifetime}
+            </p>
 
+            <p className="limitValue">
+              {t.formats.downloadLifetimeValue}
+            </p>
+          </div>
+        </div>
+      </section>
 
-        {/* Bottom */}
-        <p className="supported-bottom">
-
-          See the{' '}
-
-          <span
-            className="supported-link"
+      {/* Bottom */}
+      <section className="formatsBottom">
+        <p className="formatsBottomText">
+          {t.formats.bottomBeforeFaq}{" "}
+          <button
+            type="button"
+            className="formatsFaqButton"
             onClick={onGoToFaq}
           >
-            FAQ
-          </span>
-
-          {' '}for what happens when a limit is reached,
-          or{' '}
-
-          <span
-            className="supported-link"
-            onClick={onBackToHome}
-          >
-            start from the converter
-          </span>
-
-          .
-
+            {t.formats.faq}
+          </button>{" "}
+          {t.formats.bottomMiddle}
         </p>
 
-      </main>
-    </>
+        <button
+          type="button"
+          className="formatsStartButton"
+          onClick={onBackToHome}
+        >
+          {t.formats.startConverter}
+        </button>
+      </section>
+    </main>
   );
 }

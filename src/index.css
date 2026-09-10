@@ -1,35 +1,108 @@
+/* =========================================================
+   CLEARAUDIO — GLOBAL CSS
+   Works with App.jsx + ConverterCard.jsx
+========================================================= */
+
 :root {
-  --bg-main: #fafafa;
-  --text-primary: #111111;
+  --bg-primary: #08090d;
+  --bg-secondary: #0d0f15;
+  --bg-card: #11141b;
+  --bg-card-hover: #161a23;
+
+  --border: rgba(255, 255, 255, 0.08);
+  --border-strong: rgba(255, 255, 255, 0.14);
+
+  --text-primary: #f5f7fb;
+  --text-secondary: #a7adba;
+  --text-muted: #747b89;
+
+  --accent: #ff315f;
+  --accent-hover: #ff4c73;
+  --accent-soft: rgba(255, 49, 95, 0.12);
+  --accent-border: rgba(255, 49, 95, 0.22);
+
+  --shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+
+  /* Compatibility variables */
+  --card-bg: var(--bg-card);
+  --border-color: var(--border);
+  --accent-color: var(--accent);
+  --soft-bg: var(--bg-secondary);
 }
 
-* {
+:root[data-theme="light"] {
+  --bg-primary: #f6f7f9;
+  --bg-secondary: #ffffff;
+  --bg-card: #ffffff;
+  --bg-card-hover: #f9fafb;
+
+  --border: rgba(15, 23, 42, 0.09);
+  --border-strong: rgba(15, 23, 42, 0.14);
+
+  --text-primary: #111827;
+  --text-secondary: #5f6775;
+  --text-muted: #7c8491;
+
+  --accent: #e91e4d;
+  --accent-hover: #d91644;
+  --accent-soft: rgba(233, 30, 77, 0.09);
+  --accent-border: rgba(233, 30, 77, 0.18);
+
+  --shadow: 0 20px 60px rgba(15, 23, 42, 0.08);
+
+  --card-bg: var(--bg-card);
+  --border-color: var(--border);
+  --accent-color: var(--accent);
+  --soft-bg: #f8f9fb;
+}
+
+/* =========================================================
+   RESET
+========================================================= */
+
+*,
+*::before,
+*::after {
   box-sizing: border-box;
 }
 
-html,
-body,
-#root {
+html {
   width: 100%;
   min-width: 0;
-  min-height: 100%;
   margin: 0;
   padding: 0;
-}
-
-html {
   overflow-x: hidden;
+  scroll-behavior: smooth;
 }
 
 body {
-  overflow-x: hidden;
+  width: 100%;
+  min-width: 0;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+
   font-family:
     Inter,
+    ui-sans-serif,
     system-ui,
     -apple-system,
     BlinkMacSystemFont,
     "Segoe UI",
     sans-serif;
+
+  background: var(--bg-primary);
+  color: var(--text-primary);
+
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+#root {
+  width: 100%;
+  min-width: 0;
+  min-height: 100vh;
 }
 
 button,
@@ -39,10 +112,705 @@ textarea {
   font: inherit;
 }
 
+button {
+  cursor: pointer;
+}
+
+button:disabled {
+  cursor: not-allowed;
+}
+
 img,
 svg {
   max-width: 100%;
 }
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* =========================================================
+   SELECTION
+========================================================= */
+
+::selection {
+  background: var(--accent);
+  color: #ffffff;
+}
+
+/* =========================================================
+   SCROLLBAR
+========================================================= */
+
+::-webkit-scrollbar {
+  width: 9px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-primary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 49, 95, 0.35);
+  border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 49, 95, 0.55);
+}
+
+/* =========================================================
+   APP
+========================================================= */
+
+.app {
+  width: 100%;
+  min-height: 100vh;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+}
+
+/* =========================================================
+   CONVERTER CARD
+========================================================= */
+
+.converterCard {
+  position: relative;
+  width: 100%;
+  min-width: 0;
+
+  padding: 25px;
+
+  border: 1px solid var(--border);
+  border-radius: 20px;
+
+  background:
+    radial-gradient(
+      circle at 100% 0%,
+      rgba(255, 49, 95, 0.09),
+      transparent 32%
+    ),
+    var(--bg-card);
+
+  box-shadow: var(--shadow);
+
+  overflow: hidden;
+}
+
+.converterCard::before {
+  content: "";
+
+  position: absolute;
+  inset: 0;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.025),
+      transparent 40%
+    );
+
+  pointer-events: none;
+}
+
+.converterCardHeader {
+  position: relative;
+
+  display: flex;
+  align-items: center;
+
+  gap: 12px;
+
+  margin-bottom: 25px;
+}
+
+.converterIconWrap {
+  flex: 0 0 auto;
+
+  width: 38px;
+  height: 38px;
+
+  display: grid;
+  place-items: center;
+
+  border-radius: 11px;
+
+  background: var(--accent);
+  color: #ffffff;
+
+  box-shadow:
+    0 8px 25px rgba(255, 49, 95, 0.25);
+}
+
+.converterCardHeader h2 {
+  margin: 0;
+
+  color: var(--text-primary);
+
+  font-size: 16px;
+  line-height: 1.25;
+  font-weight: 850;
+
+  letter-spacing: -0.025em;
+}
+
+.converterCardHeader p {
+  margin: 4px 0 0;
+
+  color: var(--text-muted);
+
+  font-size: 11px;
+  line-height: 1.45;
+}
+
+/* =========================================================
+   CONVERTER FORM
+========================================================= */
+
+.converterForm {
+  position: relative;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 10px;
+}
+
+.converterForm > label {
+  margin-top: 1px;
+
+  color: var(--text-primary);
+
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.urlInputWrap {
+  position: relative;
+
+  width: 100%;
+
+  display: flex;
+  align-items: center;
+}
+
+.urlInputWrap input {
+  width: 100%;
+  min-width: 0;
+
+  height: 42px;
+
+  padding: 0 78px 0 13px;
+
+  border: 1px solid var(--border-strong);
+  border-radius: 11px;
+
+  outline: none;
+
+  background: rgba(0, 0, 0, 0.18);
+  color: var(--text-primary);
+
+  font-size: 12px;
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease;
+}
+
+:root[data-theme="light"] .urlInputWrap input {
+  background: #ffffff;
+}
+
+.urlInputWrap input::placeholder {
+  color: var(--text-muted);
+  opacity: 0.9;
+}
+
+.urlInputWrap input:focus {
+  border-color: var(--accent);
+  box-shadow:
+    0 0 0 3px var(--accent-soft);
+}
+
+.urlInputWrap input:disabled {
+  opacity: 0.6;
+}
+
+/* =========================================================
+   PASTE BUTTON
+========================================================= */
+
+.pasteButton {
+  position: absolute;
+
+  right: 6px;
+  top: 50%;
+
+  transform: translateY(-50%);
+
+  height: 30px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 5px;
+
+  padding: 0 10px;
+
+  border: 1px solid var(--border);
+  border-radius: 8px;
+
+  background: var(--bg-card-hover);
+  color: var(--text-primary);
+
+  font-size: 10px;
+  font-weight: 800;
+
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.pasteButton:hover {
+  border-color: var(--accent-border);
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+.pasteButton:disabled {
+  opacity: 0.5;
+}
+
+/* =========================================================
+   PASTE MESSAGE
+========================================================= */
+
+.pasteMessage {
+  margin: -3px 0 2px;
+
+  color: var(--accent);
+
+  font-size: 10px;
+  font-weight: 700;
+}
+
+/* =========================================================
+   QUALITY
+========================================================= */
+
+.qualitySection {
+  margin-top: 4px;
+}
+
+.qualityHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  margin-bottom: 7px;
+}
+
+.qualityHeader label {
+  color: var(--text-primary);
+
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.qualityHeader span {
+  color: var(--text-muted);
+
+  font-size: 9px;
+  font-weight: 600;
+}
+
+.qualityOptions {
+  display: grid;
+
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+
+  gap: 7px;
+}
+
+.qualityOption {
+  min-width: 0;
+
+  height: 38px;
+
+  border: 1px solid var(--border);
+  border-radius: 9px;
+
+  background: rgba(0, 0, 0, 0.14);
+  color: var(--text-secondary);
+
+  font-size: 10px;
+  font-weight: 800;
+
+  transition:
+    border-color 0.2s ease,
+    background 0.2s ease,
+    color 0.2s ease,
+    transform 0.2s ease;
+}
+
+:root[data-theme="light"] .qualityOption {
+  background: #fafafa;
+}
+
+.qualityOption:hover {
+  border-color: var(--border-strong);
+
+  color: var(--text-primary);
+
+  transform: translateY(-1px);
+}
+
+.qualityOption.active {
+  border-color: var(--accent);
+
+  background: var(--accent-soft);
+  color: var(--accent);
+
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 49, 95, 0.08);
+}
+
+.qualityOption:disabled {
+  opacity: 0.5;
+  transform: none;
+}
+
+/* =========================================================
+   RIGHTS CONFIRMATION
+========================================================= */
+
+.rightsConfirmation {
+  margin-top: 8px;
+
+  padding: 12px;
+
+  border: 1px solid var(--border);
+  border-radius: 12px;
+
+  background: rgba(255, 255, 255, 0.018);
+}
+
+:root[data-theme="light"] .rightsConfirmation {
+  background: #fafafa;
+}
+
+.rightsCheckbox {
+  display: flex;
+  align-items: flex-start;
+
+  gap: 9px;
+
+  cursor: pointer;
+}
+
+.rightsCheckbox input {
+  flex: 0 0 auto;
+
+  width: 13px;
+  height: 13px;
+
+  margin: 1px 0 0;
+
+  accent-color: var(--accent);
+
+  cursor: pointer;
+}
+
+.rightsCheckbox span {
+  color: var(--text-secondary);
+
+  font-size: 10px;
+  line-height: 1.45;
+  font-weight: 650;
+}
+
+.rightsConfirmation > p {
+  margin: 6px 0 0 22px;
+
+  color: var(--text-muted);
+
+  font-size: 8px;
+  line-height: 1.5;
+}
+
+/* =========================================================
+   CONVERT BUTTON
+========================================================= */
+
+.convertButton {
+  width: 100%;
+  height: 43px;
+
+  margin-top: 2px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 8px;
+
+  border: 0;
+  border-radius: 11px;
+
+  background: var(--accent);
+  color: #ffffff;
+
+  font-size: 11px;
+  font-weight: 850;
+
+  box-shadow:
+    0 10px 25px rgba(255, 49, 95, 0.2);
+
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.convertButton:hover:not(:disabled) {
+  background: var(--accent-hover);
+
+  transform: translateY(-1px);
+
+  box-shadow:
+    0 14px 30px rgba(255, 49, 95, 0.28);
+}
+
+.convertButton:disabled {
+  opacity: 0.48;
+
+  box-shadow: none;
+}
+
+/* =========================================================
+   PROCESSING
+========================================================= */
+
+.processingMessage {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 8px;
+
+  margin-top: 13px;
+
+  color: var(--accent);
+
+  font-size: 10px;
+  font-weight: 700;
+}
+
+/* =========================================================
+   ERROR
+========================================================= */
+
+.converterError {
+  display: flex;
+  align-items: flex-start;
+
+  gap: 10px;
+
+  margin-top: 14px;
+
+  padding: 13px;
+
+  border: 1px solid rgba(255, 80, 100, 0.22);
+  border-radius: 12px;
+
+  background: rgba(255, 49, 95, 0.06);
+
+  color: #ff607d;
+}
+
+.converterError svg {
+  flex: 0 0 auto;
+  margin-top: 1px;
+}
+
+.converterError strong {
+  display: block;
+
+  margin-bottom: 3px;
+
+  color: var(--text-primary);
+
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.converterError p {
+  margin: 0;
+
+  color: var(--text-secondary);
+
+  font-size: 9px;
+  line-height: 1.5;
+}
+
+/* =========================================================
+   SUCCESS
+========================================================= */
+
+.converterSuccess {
+  position: relative;
+
+  display: flex;
+  align-items: flex-start;
+
+  gap: 13px;
+
+  padding: 18px;
+
+  border: 1px solid rgba(74, 222, 128, 0.18);
+  border-radius: 14px;
+
+  background: rgba(74, 222, 128, 0.05);
+}
+
+.statusIcon {
+  flex: 0 0 auto;
+
+  width: 44px;
+  height: 44px;
+
+  display: grid;
+  place-items: center;
+
+  border-radius: 12px;
+}
+
+.successIcon {
+  color: #4ade80;
+  background: rgba(74, 222, 128, 0.1);
+}
+
+.statusContent {
+  min-width: 0;
+}
+
+.statusContent h3 {
+  margin: 2px 0 5px;
+
+  color: var(--text-primary);
+
+  font-size: 15px;
+  font-weight: 850;
+}
+
+.statusContent p {
+  margin: 0;
+
+  color: var(--text-secondary);
+
+  font-size: 11px;
+  line-height: 1.5;
+
+  overflow-wrap: anywhere;
+}
+
+.successMeta {
+  display: flex;
+  flex-wrap: wrap;
+
+  gap: 7px;
+
+  margin-top: 10px;
+}
+
+.successMeta span {
+  padding: 5px 8px;
+
+  border: 1px solid var(--border);
+  border-radius: 7px;
+
+  background: var(--bg-card);
+
+  color: var(--text-muted);
+
+  font-size: 9px;
+  font-weight: 700;
+}
+
+/* =========================================================
+   SUCCESS ACTIONS
+========================================================= */
+
+.successActions {
+  display: flex;
+
+  gap: 9px;
+
+  margin-top: 14px;
+}
+
+.downloadButton,
+.resetButton {
+  min-height: 41px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 7px;
+
+  border-radius: 10px;
+
+  font-size: 11px;
+  font-weight: 800;
+
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.downloadButton {
+  flex: 1;
+
+  border: 0;
+
+  background: var(--accent);
+  color: #ffffff;
+
+  box-shadow:
+    0 9px 23px rgba(255, 49, 95, 0.2);
+}
+
+.downloadButton:hover {
+  background: var(--accent-hover);
+  transform: translateY(-1px);
+}
+
+.resetButton {
+  padding: 0 14px;
+
+  border: 1px solid var(--border);
+
+  background: var(--bg-card);
+  color: var(--text-secondary);
+}
+
+.resetButton:hover {
+  border-color: var(--border-strong);
+
+  background: var(--bg-card-hover);
+  color: var(--text-primary);
+
+  transform: translateY(-1px);
+}
+
+/* =========================================================
+   SPINNER
+========================================================= */
 
 @keyframes spin {
   from {
@@ -54,6 +822,654 @@ svg {
   }
 }
 
+.spin,
 .animate-spin {
   animation: spin 1s linear infinite;
+}
+
+/* =========================================================
+   FOCUS ACCESSIBILITY
+========================================================= */
+
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* =========================================================
+   MOBILE — CONVERTER
+========================================================= */
+
+@media (max-width: 720px) {
+  .converterCard {
+    padding: 20px;
+    border-radius: 17px;
+  }
+
+  .converterCardHeader {
+    margin-bottom: 21px;
+  }
+
+  .qualityOptions {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .qualityOption {
+    height: 40px;
+  }
+}
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 520px) {
+  .converterCard {
+    padding: 17px;
+
+    border-radius: 15px;
+  }
+
+  .converterIconWrap {
+    width: 36px;
+    height: 36px;
+  }
+
+  .converterCardHeader h2 {
+    font-size: 15px;
+  }
+
+  .converterCardHeader p {
+    font-size: 10px;
+  }
+
+  .urlInputWrap input {
+    height: 43px;
+
+    padding-left: 11px;
+    padding-right: 72px;
+
+    font-size: 11px;
+  }
+
+  .pasteButton {
+    right: 5px;
+
+    padding: 0 8px;
+
+    font-size: 9px;
+  }
+
+  .rightsConfirmation {
+    padding: 10px;
+  }
+
+  .rightsCheckbox span {
+    font-size: 9px;
+  }
+
+  .rightsConfirmation > p {
+    margin-left: 22px;
+
+    font-size: 8px;
+  }
+
+  .successActions {
+    flex-direction: column;
+  }
+
+  .resetButton {
+    width: 100%;
+  }
+}
+
+/* =========================================================
+   VERY SMALL MOBILE
+========================================================= */
+
+@media (max-width: 380px) {
+  .converterCard {
+    padding: 14px;
+  }
+
+  .converterCardHeader {
+    gap: 9px;
+  }
+
+  .converterIconWrap {
+    width: 34px;
+    height: 34px;
+  }
+
+  .qualityOptions {
+    gap: 6px;
+  }
+
+  .qualityOption {
+    font-size: 9px;
+  }
+
+  .convertButton {
+    height: 42px;
+  }
+}
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}
+
+
+
+/* =========================================================
+   MOBILE RESPONSIVE FIX
+   ========================================================= */
+
+html,
+body,
+#root {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+body {
+  min-height: 100vh;
+}
+
+.app {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  overflow-x: hidden;
+}
+
+/* Header */
+@media (max-width: 768px) {
+  .headerInner {
+    width: 100%;
+    max-width: 100%;
+    min-height: 64px;
+    padding: 0 16px;
+    margin: 0;
+  }
+
+  .desktopNav {
+    display: none;
+  }
+
+  .navActions {
+    gap: 6px;
+  }
+
+  .brandText {
+    font-size: 17px;
+  }
+
+  .brandMark {
+    width: 34px;
+    height: 34px;
+  }
+}
+
+/* Main hero */
+@media (max-width: 768px) {
+  .heroSection,
+  .hero,
+  .heroGrid {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  .heroGrid {
+    grid-template-columns: 1fr !important;
+    gap: 28px !important;
+  }
+
+  .heroContent {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+  }
+
+  .heroTitle {
+    max-width: 100%;
+    font-size: clamp(42px, 11vw, 64px);
+    line-height: 0.95;
+    word-break: normal;
+  }
+
+  .heroDescription {
+    max-width: 100%;
+    font-size: 15px;
+    line-height: 1.65;
+  }
+
+  .heroFeatures {
+    width: 100%;
+    max-width: 100%;
+    grid-template-columns: 1fr 1fr !important;
+  }
+
+  .heroFeatureCard {
+    min-width: 0;
+    width: 100%;
+  }
+
+  .converterCard {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+}
+
+/* Smaller phones */
+@media (max-width: 520px) {
+  .headerInner {
+    padding: 0 14px;
+  }
+
+  .heroGrid {
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+  }
+
+  .heroFeatures {
+    grid-template-columns: 1fr !important;
+  }
+
+  .converterCard {
+    padding: 22px !important;
+    border-radius: 20px !important;
+  }
+
+  .cardTitle {
+    font-size: 1.08rem !important;
+  }
+
+  .cardSubtitle {
+    font-size: 0.75rem !important;
+  }
+
+  .inputContainer {
+    min-width: 0;
+  }
+
+  .textInput {
+    min-width: 0;
+    font-size: 0.84rem !important;
+    padding-left: 14px !important;
+    padding-right: 88px !important;
+  }
+
+  .pasteBtn {
+    right: 6px !important;
+    padding: 8px 10px !important;
+  }
+
+  .guidanceBox {
+    font-size: 0.7rem !important;
+    padding: 11px 12px !important;
+  }
+
+  .checkboxContainer {
+    padding: 14px !important;
+  }
+
+  .checkboxText {
+    font-size: 0.74rem !important;
+  }
+
+  .checkboxHint {
+    font-size: 0.65rem !important;
+  }
+}
+
+/* Very small phones */
+@media (max-width: 380px) {
+  .headerInner {
+    padding: 0 12px;
+  }
+
+  .brandText {
+    font-size: 15px;
+  }
+
+  .heroGrid {
+    padding-left: 12px !important;
+    padding-right: 12px !important;
+  }
+
+  .converterCard {
+    padding: 18px !important;
+  }
+
+  .heroTitle {
+    font-size: 40px;
+  }
+
+  .heroDescription {
+    font-size: 14px;
+  }
+
+  .cardHeader {
+    gap: 10px !important;
+  }
+
+  .iconBox {
+    width: 42px !important;
+    height: 42px !important;
+    min-width: 42px !important;
+  }
+
+  .textInput {
+    font-size: 0.78rem !important;
+  }
+
+  .pasteBtn {
+    font-size: 0.7rem !important;
+  }
+}
+
+/* Footer responsive */
+@media (max-width: 768px) {
+  .siteFooter,
+  .footer,
+  .footerInner {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  .footerInner {
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+  }
+
+  .footerGrid {
+    grid-template-columns: 1fr 1fr !important;
+    width: 100%;
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 520px) {
+  .footerGrid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .footerColumn {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .footerDescription {
+    max-width: 100% !important;
+  }
+}
+
+
+
+/* =========================================
+   MOBILE RESPONSIVE FIX
+   ========================================= */
+
+@media (max-width: 768px) {
+  html,
+  body,
+  #root {
+    width: 100%;
+    min-width: 0;
+    overflow-x: hidden;
+  }
+
+  .app {
+    width: 100%;
+    min-width: 0;
+    overflow-x: hidden;
+  }
+
+  /* Header */
+  .headerInner {
+    width: calc(100% - 28px);
+    min-height: 64px;
+    margin: 0 auto;
+    gap: 10px;
+  }
+
+  .brandText {
+    font-size: 17px;
+  }
+
+  .brandMark {
+    width: 34px;
+    height: 34px;
+  }
+
+  /* Hide desktop navigation */
+  .desktopNav {
+    display: none;
+  }
+
+  .navActions {
+    margin-left: auto;
+    gap: 6px;
+  }
+
+  /* Main home section */
+  .heroSection {
+    width: 100%;
+    padding: 42px 14px 50px;
+  }
+
+  .heroGrid {
+    width: 100%;
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+
+  .heroContent {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .heroTitle {
+    font-size: clamp(42px, 12vw, 64px);
+    line-height: 0.95;
+    letter-spacing: -2px;
+    word-break: normal;
+  }
+
+  .heroDescription {
+    width: 100%;
+    font-size: 15px;
+    line-height: 1.65;
+  }
+
+  /* Converter */
+  .converterCard {
+    width: 100% !important;
+    max-width: none !important;
+    min-width: 0;
+    padding: 22px !important;
+    margin: 0 !important;
+    border-radius: 22px !important;
+  }
+
+  .cardHeader {
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+
+  .iconBox {
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
+  }
+
+  .cardTitle {
+    font-size: 1.05rem;
+  }
+
+  .cardSubtitle {
+    font-size: 0.75rem;
+  }
+
+  /* URL input */
+  .inputContainer {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .textInput {
+    min-width: 0;
+    padding: 15px 82px 15px 14px;
+    font-size: 0.85rem;
+  }
+
+  .pasteBtn {
+    right: 6px;
+    padding: 8px 9px;
+    font-size: 0.72rem;
+  }
+
+  /* Quality */
+  .optionsGrid {
+    width: 100%;
+  }
+
+  .selectMenu {
+    width: 100%;
+    min-width: 0;
+  }
+
+  /* Rights */
+  .checkboxContainer {
+    width: 100%;
+    padding: 15px;
+  }
+
+  .checkboxText {
+    font-size: 0.76rem;
+  }
+
+  .checkboxHint {
+    font-size: 0.66rem;
+  }
+
+  /* Guidance */
+  .guidanceBox {
+    width: 100%;
+    padding: 13px 12px;
+    font-size: 0.7rem;
+  }
+
+  /* Buttons */
+  .submitBtn,
+  .secondaryBtn {
+    width: 100%;
+    min-height: 52px;
+  }
+
+  /* Feature cards */
+  .featureGrid {
+    width: 100%;
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .featureCard {
+    width: 100%;
+    min-width: 0;
+  }
+
+  /* Footer */
+  .footerInner,
+  .footerContent {
+    width: calc(100% - 28px);
+    margin: 0 auto;
+  }
+
+  .footerColumns {
+    grid-template-columns: 1fr 1fr;
+    gap: 28px;
+  }
+}
+
+
+/* Smaller phones */
+@media (max-width: 480px) {
+  .headerInner {
+    width: calc(100% - 20px);
+  }
+
+  .heroSection {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  .converterCard {
+    padding: 20px !important;
+    border-radius: 20px !important;
+  }
+
+  .heroTitle {
+    font-size: clamp(40px, 11vw, 54px);
+  }
+
+  .footerInner,
+  .footerContent {
+    width: calc(100% - 20px);
+  }
+
+  .footerColumns {
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+}
+
+
+/* Very small phones */
+@media (max-width: 360px) {
+  .converterCard {
+    padding: 17px !important;
+  }
+
+  .cardHeader {
+    align-items: flex-start;
+  }
+
+  .cardTitle {
+    font-size: 0.98rem;
+  }
+
+  .cardSubtitle {
+    font-size: 0.7rem;
+  }
+
+  .footerColumns {
+    grid-template-columns: 1fr;
+  }
 }
