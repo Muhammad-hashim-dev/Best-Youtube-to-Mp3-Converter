@@ -33,9 +33,7 @@ export default function App() {
   const [errorMessage, setErrorMessage] = useState("");
   const [downloadPayload, setDownloadPayload] = useState(null);
 
-  const [currentTab, setCurrentTab] = useState(
-    window.location.pathname
-  );
+  const [currentTab, setCurrentTab] = useState(window.location.pathname);
 
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -71,10 +69,7 @@ export default function App() {
   ========================= */
 
   useEffect(() => {
-    document.documentElement.setAttribute(
-      "data-theme",
-      theme
-    );
+    document.documentElement.setAttribute("data-theme", theme);
 
     localStorage.setItem("clearaudio-theme", theme);
   }, [theme]);
@@ -97,10 +92,7 @@ export default function App() {
     window.addEventListener("popstate", handlePopState);
 
     return () => {
-      window.removeEventListener(
-        "popstate",
-        handlePopState
-      );
+      window.removeEventListener("popstate", handlePopState);
     };
   }, []);
 
@@ -109,9 +101,7 @@ export default function App() {
   ========================= */
 
   const toggleTheme = () => {
-    setTheme((prev) =>
-      prev === "dark" ? "light" : "dark"
-    );
+    setTheme((prev) => (prev === "dark" ? "light" : "dark"));
   };
 
   /* =========================
@@ -128,8 +118,7 @@ export default function App() {
     };
 
     const path =
-      routeMap[route] ||
-      (route.startsWith("/") ? route : `/${route}`);
+      routeMap[route] || (route.startsWith("/") ? route : `/${route}`);
 
     if (window.location.pathname !== path) {
       window.history.pushState({}, "", path);
@@ -154,7 +143,7 @@ export default function App() {
 
   const isValidYouTubeUrl = (url) => {
     return /^(https?:\/\/)?(www\.)?(youtube\.com\/(watch\?v=|shorts\/|embed\/)|youtu\.be\/|music\.youtube\.com\/watch\?v=)[\w-]+/i.test(
-      url.trim()
+      url.trim(),
     );
   };
 
@@ -165,41 +154,25 @@ export default function App() {
   const extractYouTubeId = (url) => {
     try {
       const parsedUrl = new URL(
-        url.startsWith("http")
-          ? url
-          : `https://${url}`
+        url.startsWith("http") ? url : `https://${url}`,
       );
 
-      const hostname = parsedUrl.hostname.replace(
-        /^www\./,
-        ""
-      );
+      const hostname = parsedUrl.hostname.replace(/^www\./, "");
 
       if (hostname === "youtu.be") {
-        return parsedUrl.pathname
-          .slice(1)
-          .split("/")[0];
+        return parsedUrl.pathname.slice(1).split("/")[0];
       }
 
-      if (
-        hostname === "youtube.com" ||
-        hostname === "music.youtube.com"
-      ) {
-        const videoId =
-          parsedUrl.searchParams.get("v");
+      if (hostname === "youtube.com" || hostname === "music.youtube.com") {
+        const videoId = parsedUrl.searchParams.get("v");
 
         if (videoId) {
           return videoId;
         }
 
-        const pathParts = parsedUrl.pathname
-          .split("/")
-          .filter(Boolean);
+        const pathParts = parsedUrl.pathname.split("/").filter(Boolean);
 
-        if (
-          pathParts[0] === "shorts" ||
-          pathParts[0] === "embed"
-        ) {
+        if (pathParts[0] === "shorts" || pathParts[0] === "embed") {
           return pathParts[1] || "";
         }
       }
@@ -220,8 +193,7 @@ export default function App() {
 
     if (!url) {
       setErrorMessage(
-        t.converter?.validationRequired ||
-          "Please enter a YouTube URL."
+        t.converter?.validationRequired || "Please enter a YouTube URL.",
       );
 
       setUiState("ERROR");
@@ -230,8 +202,7 @@ export default function App() {
 
     if (!isValidYouTubeUrl(url)) {
       setErrorMessage(
-        t.converter?.validationInvalid ||
-          "Please enter a valid YouTube URL."
+        t.converter?.validationInvalid || "Please enter a valid YouTube URL.",
       );
 
       setUiState("ERROR");
@@ -243,20 +214,19 @@ export default function App() {
     if (!videoId) {
       setErrorMessage(
         t.converter?.validationInvalid ||
-          "Unable to extract the YouTube video ID."
+          "Unable to extract the YouTube video ID.",
       );
 
       setUiState("ERROR");
       return;
     }
 
-    const rapidApiKey =
-      import.meta.env.VITE_RAPIDAPI_KEY;
+    const rapidApiKey = import.meta.env.VITE_RAPIDAPI_KEY;
 
     if (!rapidApiKey) {
       setErrorMessage(
         t.converter?.apiMissing ||
-          "RapidAPI key is missing. Please check your environment variables."
+          "RapidAPI key is missing. Please check your environment variables.",
       );
 
       setUiState("ERROR");
@@ -283,7 +253,7 @@ export default function App() {
       if (!data) {
         throw new Error(
           t.converter?.noResponse ||
-            "No response received from the conversion service."
+            "No response received from the conversion service.",
         );
       }
 
@@ -291,7 +261,7 @@ export default function App() {
         throw new Error(
           data.msg ||
             t.converter?.apiUnable ||
-            "The conversion service could not process this video."
+            "The conversion service could not process this video.",
         );
       }
 
@@ -299,16 +269,13 @@ export default function App() {
         throw new Error(
           data.msg ||
             t.converter?.conversionFailed ||
-            "Conversion failed. Please try again."
+            "Conversion failed. Please try again.",
         );
       }
 
       setDownloadPayload({
         downloadUrl: data.link,
-        title:
-          data.title ||
-          t.converter?.fileFallback ||
-          "ClearAudio MP3",
+        title: data.title || t.converter?.fileFallback || "ClearAudio MP3",
       });
 
       setUiState("SUCCESS");
@@ -316,17 +283,14 @@ export default function App() {
       console.error("Conversion error:", error);
 
       const fallbackMessage =
-        t.converter?.conversionFailed ||
-        "Conversion failed. Please try again.";
+        t.converter?.conversionFailed || "Conversion failed. Please try again.";
 
       const apiMessage =
         error?.response?.data?.msg ||
         error?.response?.data?.message ||
         error?.message;
 
-      setErrorMessage(
-        apiMessage || fallbackMessage
-      );
+      setErrorMessage(apiMessage || fallbackMessage);
 
       setUiState("ERROR");
     }
@@ -353,11 +317,7 @@ export default function App() {
       return;
     }
 
-    window.open(
-      downloadPayload.downloadUrl,
-      "_blank",
-      "noopener,noreferrer"
-    );
+    window.open(downloadPayload.downloadUrl, "_blank", "noopener,noreferrer");
   };
 
   /* =========================
@@ -373,39 +333,30 @@ export default function App() {
 
           <div className="heroContainer">
             <div className="heroGrid">
-
               {/* LEFT SIDE */}
               <div className="heroContent">
                 <div className="heroBadge">
                   <span className="heroBadgeDot" />
 
-                  <span>
-                    {t.hero.badge}
-                  </span>
+                  <span>{t.hero.badge}</span>
                 </div>
 
                 <h1 className="heroTitle">
                   {t.hero.titleMain}{" "}
-                  <span className="heroHighlight">
-                    {t.hero.titleHighlight}
-                  </span>
+                  <span className="heroHighlight">{t.hero.titleHighlight}</span>
                 </h1>
 
-                <p className="heroDescription">
-                  {t.hero.description}
-                </p>
+                <p className="heroDescription">{t.hero.description}</p>
 
                 <div className="heroActions">
                   <button
                     type="button"
                     className="heroPrimaryButton"
                     onClick={() => {
-                      document
-                        .getElementById("converter")
-                        ?.scrollIntoView({
-                          behavior: "smooth",
-                          block: "center",
-                        });
+                      document.getElementById("converter")?.scrollIntoView({
+                        behavior: "smooth",
+                        block: "center",
+                      });
                     }}
                   >
                     {t.hero.button}
@@ -416,20 +367,15 @@ export default function App() {
 
                 {/* FEATURES */}
                 <div className="heroFeatures">
-
                   <div className="heroFeatureCard">
                     <div className="heroFeatureIcon">
                       <Zap size={20} />
                     </div>
 
                     <div>
-                      <h3>
-                        {t.hero.features?.fast?.title}
-                      </h3>
+                      <h3>{t.hero.features?.fast?.title}</h3>
 
-                      <p>
-                        {t.hero.features?.fast?.text}
-                      </p>
+                      <p>{t.hero.features?.fast?.text}</p>
                     </div>
                   </div>
 
@@ -439,13 +385,9 @@ export default function App() {
                     </div>
 
                     <div>
-                      <h3>
-                        {t.hero.features?.quality?.title}
-                      </h3>
+                      <h3>{t.hero.features?.quality?.title}</h3>
 
-                      <p>
-                        {t.hero.features?.quality?.text}
-                      </p>
+                      <p>{t.hero.features?.quality?.text}</p>
                     </div>
                   </div>
 
@@ -455,13 +397,9 @@ export default function App() {
                     </div>
 
                     <div>
-                      <h3>
-                        {t.hero.features?.private?.title}
-                      </h3>
+                      <h3>{t.hero.features?.private?.title}</h3>
 
-                      <p>
-                        {t.hero.features?.private?.text}
-                      </p>
+                      <p>{t.hero.features?.private?.text}</p>
                     </div>
                   </div>
 
@@ -471,31 +409,21 @@ export default function App() {
                     </div>
 
                     <div>
-                      <h3>
-                        {t.hero.features?.device?.title}
-                      </h3>
+                      <h3>{t.hero.features?.device?.title}</h3>
 
-                      <p>
-                        {t.hero.features?.device?.text}
-                      </p>
+                      <p>{t.hero.features?.device?.text}</p>
                     </div>
                   </div>
-
                 </div>
               </div>
 
               {/* RIGHT SIDE CONVERTER */}
-              <div
-                id="converter"
-                className="converterWrapper"
-              >
+              <div id="converter" className="converterWrapper">
                 <ConverterCard
                   inputUrl={inputUrl}
                   setInputUrl={setInputUrl}
                   conversionType={conversionType}
-                  setConversionType={
-                    setConversionType
-                  }
+                  setConversionType={setConversionType}
                   uiState={uiState}
                   errorMessage={errorMessage}
                   downloadPayload={downloadPayload}
@@ -504,7 +432,6 @@ export default function App() {
                   onDownload={handleDownload}
                 />
               </div>
-
             </div>
           </div>
         </section>
@@ -519,11 +446,7 @@ export default function App() {
   const renderPage = () => {
     switch (currentTab) {
       case "/how-it-works":
-        return (
-          <HowItWorks
-            onBackToHome={goHome}
-          />
-        );
+        return <HowItWorks onBackToHome={goHome} />;
 
       case "/formats":
         return (
@@ -534,18 +457,10 @@ export default function App() {
         );
 
       case "/faq":
-        return (
-          <FAQOverview
-            onBackToHome={goHome}
-          />
-        );
+        return <FAQOverview onBackToHome={goHome} />;
 
       case "/legal":
-        return (
-          <LegalOverview
-            onBackToHome={goHome}
-          />
-        );
+        return <LegalOverview onBackToHome={goHome} />;
 
       case "/":
       case "":
@@ -556,14 +471,12 @@ export default function App() {
 
   return (
     <div className="app">
-
       {/* =========================
           HEADER
       ========================= */}
 
       <header className="siteHeader">
         <div className="headerContainer">
-
           {/* BRAND */}
           <button
             type="button"
@@ -572,15 +485,10 @@ export default function App() {
             aria-label="ClearAudio Home"
           >
             <div className="brandIcon">
-              <Play
-                size={17}
-                fill="currentColor"
-              />
+              <Play size={17} fill="currentColor" />
             </div>
 
-            <span className="brandName">
-              ClearAudio
-            </span>
+            <span className="brandName">ClearAudio</span>
           </button>
 
           {/* DESKTOP NAV */}
@@ -590,13 +498,9 @@ export default function App() {
                 key={item.path}
                 type="button"
                 className={`navLink ${
-                  currentTab === item.path
-                    ? "navLinkActive"
-                    : ""
+                  currentTab === item.path ? "navLinkActive" : ""
                 }`}
-                onClick={() =>
-                  navigate(item.path)
-                }
+                onClick={() => navigate(item.path)}
               >
                 {item.label}
               </button>
@@ -608,22 +512,10 @@ export default function App() {
               type="button"
               className="themeButton"
               onClick={toggleTheme}
-              aria-label={
-                theme === "dark"
-                  ? t.nav.lightMode
-                  : t.nav.darkMode
-              }
-              title={
-                theme === "dark"
-                  ? t.nav.lightMode
-                  : t.nav.darkMode
-              }
+              aria-label={theme === "dark" ? t.nav.lightMode : t.nav.darkMode}
+              title={theme === "dark" ? t.nav.lightMode : t.nav.darkMode}
             >
-              {theme === "dark" ? (
-                <Sun size={18} />
-              ) : (
-                <Moon size={18} />
-              )}
+              {theme === "dark" ? <Sun size={18} /> : <Moon size={18} />}
             </button>
 
             <button
@@ -633,12 +525,10 @@ export default function App() {
                 navigate("/");
 
                 setTimeout(() => {
-                  document
-                    .getElementById("converter")
-                    ?.scrollIntoView({
-                      behavior: "smooth",
-                      block: "center",
-                    });
+                  document.getElementById("converter")?.scrollIntoView({
+                    behavior: "smooth",
+                    block: "center",
+                  });
                 }, 50);
               }}
             >
@@ -648,51 +538,27 @@ export default function App() {
 
           {/* MOBILE HEADER */}
           <div className="mobileHeaderActions">
-
             <LanguageSwitcher mobile />
 
             <button
               type="button"
               className="themeButton"
               onClick={toggleTheme}
-              aria-label={
-                theme === "dark"
-                  ? t.nav.lightMode
-                  : t.nav.darkMode
-              }
-              title={
-                theme === "dark"
-                  ? t.nav.lightMode
-                  : t.nav.darkMode
-              }
+              aria-label={theme === "dark" ? t.nav.lightMode : t.nav.darkMode}
+              title={theme === "dark" ? t.nav.lightMode : t.nav.darkMode}
             >
-              {theme === "dark" ? (
-                <Sun size={18} />
-              ) : (
-                <Moon size={18} />
-              )}
+              {theme === "dark" ? <Sun size={18} /> : <Moon size={18} />}
             </button>
 
             <button
               type="button"
               className="mobileMenuButton"
-              onClick={() =>
-                setMenuOpen((prev) => !prev)
-              }
+              onClick={() => setMenuOpen((prev) => !prev)}
               aria-expanded={menuOpen}
-              aria-label={
-                menuOpen
-                  ? t.nav.closeMenu
-                  : t.nav.openMenu
-              }
+              aria-label={menuOpen ? t.nav.closeMenu : t.nav.openMenu}
             >
-              {menuOpen ? (
-                <span>×</span>
-              ) : (
-                <span>☰</span>
-              )}
+              {menuOpen ? <span>×</span> : <span>☰</span>}
             </button>
-
           </div>
         </div>
 
@@ -700,19 +566,14 @@ export default function App() {
         {menuOpen && (
           <div className="mobileMenu">
             <nav className="mobileNav">
-
               {navItems.map((item) => (
                 <button
                   key={item.path}
                   type="button"
                   className={`mobileNavLink ${
-                    currentTab === item.path
-                      ? "mobileNavLinkActive"
-                      : ""
+                    currentTab === item.path ? "mobileNavLinkActive" : ""
                   }`}
-                  onClick={() =>
-                    navigate(item.path)
-                  }
+                  onClick={() => navigate(item.path)}
                 >
                   {item.label}
                 </button>
@@ -725,12 +586,10 @@ export default function App() {
                   navigate("/");
 
                   setTimeout(() => {
-                    document
-                      .getElementById("converter")
-                      ?.scrollIntoView({
-                        behavior: "smooth",
-                        block: "center",
-                      });
+                    document.getElementById("converter")?.scrollIntoView({
+                      behavior: "smooth",
+                      block: "center",
+                    });
                   }, 50);
                 }}
               >
@@ -738,7 +597,6 @@ export default function App() {
 
                 <ArrowRight size={17} />
               </button>
-
             </nav>
           </div>
         )}
@@ -1065,143 +923,235 @@ export default function App() {
         }
 
         /* =========================
-           LANGUAGE
-        ========================= */
+   LANGUAGE SWITCHER
+========================= */
 
-        .languageSwitcher {
-          position: relative;
-          display: inline-flex;
-        }
+.languageSwitcher {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
 
-        .languageSwitcherButton {
-          min-height: 38px;
+.languageSwitcherButton {
+  min-height: 40px;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 0 12px;
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 11px;
+  background: rgba(255, 255, 255, 0.025);
+  color: var(--text-secondary);
+  font-size: 13px;
+  font-weight: 750;
+  cursor: pointer;
 
-          display: inline-flex;
-          align-items: center;
-          justify-content: center;
+  transition:
+    color 0.2s ease,
+    border-color 0.2s ease,
+    background 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
 
-          gap: 7px;
-          padding: 0 11px;
+.languageSwitcherButton:hover {
+  color: var(--text-primary);
+  border-color: rgba(255, 49, 95, 0.28);
+  background: rgba(255, 49, 95, 0.07);
+  box-shadow: 0 6px 20px rgba(255, 49, 95, 0.08);
+  transform: translateY(-1px);
+}
 
-          border:
-            1px solid var(--border);
+.languageSwitcherButton svg:first-child {
+  color: var(--text-muted);
+  transition: color 0.2s ease;
+}
 
-          border-radius: 10px;
+.languageSwitcherButton:hover svg:first-child {
+  color: var(--accent);
+}
 
-          background:
-            color-mix(
-              in srgb,
-              var(--bg-card) 94%,
-              transparent
-            );
+.languageFlag {
+  font-size: 16px;
+  line-height: 1;
+}
 
-          color: var(--text-secondary);
+.languageCurrent {
+  white-space: nowrap;
+  letter-spacing: -0.01em;
+}
 
-          font-size: 13px;
-          font-weight: 700;
+.languageChevron {
+  color: var(--text-muted);
+  transition:
+    transform 0.2s ease,
+    color 0.2s ease;
+}
 
-          transition:
-            border-color 0.2s ease,
-            color 0.2s ease,
-            background 0.2s ease;
-        }
+.languageChevronOpen {
+  transform: rotate(180deg);
+  color: var(--accent);
+}
 
-        .languageSwitcherButton:hover {
-          color: var(--text-primary);
+/* DROPDOWN */
 
-          border-color:
-            var(--border-strong);
+.languageDropdown {
+  position: absolute;
+  top: calc(100% + 9px);
+  right: 0;
+  width: 178px;
+  padding: 6px;
 
-          background:
-            var(--bg-card-hover);
-        }
+  background: rgba(17, 17, 17, 0.96);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 14px;
 
-        .languageFlag {
-          font-size: 16px;
-          line-height: 1;
-        }
+  box-shadow:
+    0 18px 45px rgba(0, 0, 0, 0.45),
+    0 0 30px rgba(255, 49, 95, 0.04);
 
-        .languageCurrent {
-          white-space: nowrap;
-        }
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
 
-        .languageChevron {
-          transition:
-            transform 0.2s ease;
-        }
+  z-index: 2000;
 
-        .languageChevronOpen {
-          transform: rotate(180deg);
-        }
+  animation: languageDropdownIn 0.18s ease-out;
+}
 
-        .languageDropdown {
-          position: absolute;
+.languageOption {
+  width: 100%;
+  min-height: 40px;
 
-          top: calc(100% + 8px);
-          right: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 
-          width: 170px;
-          padding: 6px;
+  padding: 9px 10px;
 
-          border:
-            1px solid var(--border);
+  border: 1px solid transparent;
+  border-radius: 10px;
 
-          border-radius: 13px;
+  background: transparent;
+  color: var(--text-secondary);
 
-          background:
-            var(--bg-secondary);
+  text-align: left;
+  font-size: 13px;
+  font-weight: 700;
 
-          box-shadow:
-            0 18px 50px
-            rgba(0, 0, 0, 0.32);
+  cursor: pointer;
 
-          z-index: 2000;
-        }
+  transition:
+    color 0.18s ease,
+    background 0.18s ease,
+    border-color 0.18s ease;
+}
 
-        .languageOption {
-          width: 100%;
+.languageOption:hover {
+  color: var(--text-primary);
+  background: rgba(255, 49, 95, 0.08);
+  border-color: rgba(255, 49, 95, 0.12);
+}
 
-          display: flex;
-          align-items: center;
+.languageOptionActive {
+  color: var(--accent);
+  background: rgba(255, 49, 95, 0.10);
+  border-color: rgba(255, 49, 95, 0.14);
+}
 
-          gap: 9px;
-          padding: 10px;
+.languageOptionFlag {
+  width: 22px;
+  display: inline-flex;
+  justify-content: center;
+  font-size: 17px;
+  line-height: 1;
+}
 
-          border: 0;
-          border-radius: 9px;
+.languageOptionName {
+  flex: 1;
+}
 
-          background: transparent;
+.languageCheck {
+  color: var(--accent);
+}
 
-          color: var(--text-secondary);
+/* SMALL OPEN ANIMATION */
 
-          text-align: left;
+@keyframes languageDropdownIn {
+  from {
+    opacity: 0;
+    transform: translateY(-5px) scale(0.98);
+  }
 
-          font-size: 13px;
-          font-weight: 700;
-        }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
 
-        .languageOption:hover {
-          color: var(--text-primary);
-          background: var(--accent-soft);
-        }
+/* =========================
+   LIGHT MODE
+========================= */
 
-        .languageOptionActive {
-          color: var(--accent);
-          background: var(--accent-soft);
-        }
+:root[data-theme="light"] .languageSwitcherButton {
+  background: rgba(15, 23, 42, 0.025);
+  border-color: rgba(15, 23, 42, 0.09);
+}
 
-        .languageOptionFlag {
-          font-size: 17px;
-          line-height: 1;
-        }
+:root[data-theme="light"] .languageSwitcherButton:hover {
+  background: rgba(233, 30, 77, 0.06);
+  border-color: rgba(233, 30, 77, 0.22);
+}
 
-        .languageOptionName {
-          flex: 1;
-        }
+:root[data-theme="light"] .languageDropdown {
+  background: rgba(255, 255, 255, 0.97);
+  border-color: rgba(15, 23, 42, 0.09);
+  box-shadow:
+    0 18px 45px rgba(15, 23, 42, 0.12),
+    0 0 25px rgba(233, 30, 77, 0.04);
+}
 
-        .languageCheck {
-          color: var(--accent);
-        }
+:root[data-theme="light"] .languageOption:hover {
+  background: rgba(233, 30, 77, 0.06);
+  border-color: rgba(233, 30, 77, 0.10);
+}
+
+:root[data-theme="light"] .languageOptionActive {
+  background: rgba(233, 30, 77, 0.08);
+  border-color: rgba(233, 30, 77, 0.12);
+}
+
+/* =========================
+   MOBILE LANGUAGE
+========================= */
+
+@media (max-width: 520px) {
+  .languageSwitcherMobile .languageSwitcherButton {
+    width: 40px;
+    min-height: 37px;
+    padding: 0;
+    justify-content: center;
+  }
+
+  .languageSwitcherMobile .languageCurrent,
+  .languageSwitcherMobile .languageChevron {
+    display: none;
+  }
+
+  .languageSwitcherMobile
+    .languageSwitcherButton
+    > svg:first-child {
+    display: none;
+  }
+
+  .languageSwitcherMobile .languageFlag {
+    font-size: 17px;
+  }
+
+  .languageSwitcherMobile .languageDropdown {
+    right: 0;
+    width: 170px;
+  }
+}
 
         /* =========================
            THEME
