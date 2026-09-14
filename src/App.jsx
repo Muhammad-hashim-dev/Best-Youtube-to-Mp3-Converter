@@ -3,7 +3,7 @@ import axios from "axios";
 
 import {
   ArrowRight,
-  AudioWaveform,
+  Music,
   Gauge,
   Moon,
   ShieldCheck,
@@ -485,7 +485,7 @@ export default function App() {
             aria-label="ClearAudio Home"
           >
             <div className="brandIcon">
-              <AudioWaveform size={21} strokeWidth={2.5} />
+              <Music size={21} strokeWidth={2.5} />
             </div>
 
             <span className="brandName">HowToMp3</span>

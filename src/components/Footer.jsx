@@ -1,5 +1,5 @@
 import React from "react";
-import { AudioWaveform } from "lucide-react";
+import { Music } from "lucide-react";
 import { useLanguage } from "../context/LanguageContext";
 
 export default function Footer({ onNavigate }) {
@@ -41,7 +41,7 @@ export default function Footer({ onNavigate }) {
               aria-label="Go to home"
             >
               <span className="footerBrandIcon">
-                <AudioWaveform size={20} strokeWidth={2.5} />
+                <Music size={20} strokeWidth={2.5} />
               </span>
 
               <span className="footerBrandName">HowToMp3</span>
