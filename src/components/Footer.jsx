@@ -1,4 +1,5 @@
 import React from "react";
+import { AudioWaveform } from "lucide-react";
 import { useLanguage } from "../context/LanguageContext";
 
 export default function Footer({ onNavigate }) {
@@ -39,32 +40,26 @@ export default function Footer({ onNavigate }) {
               onClick={() => handleNavigation("home")}
               aria-label="Go to home"
             >
-              <span className="footerBrandIcon">▶</span>
-
-              <span className="footerBrandName">
-                ClearAudio
+              <span className="footerBrandIcon">
+                <AudioWaveform size={20} strokeWidth={2.5} />
               </span>
+
+              <span className="footerBrandName">ClearAudio</span>
             </button>
 
-            <p className="footerDescription">
-              {t.footer.description}
-            </p>
+            <p className="footerDescription">{t.footer.description}</p>
           </div>
 
           {/* LINKS */}
           <div className="footerLinks">
             {/* QUICK LINKS */}
             <div className="footerColumn">
-              <span className="footerColumnTitle">
-                {t.footer.quickLinks}
-              </span>
+              <span className="footerColumnTitle">{t.footer.quickLinks}</span>
 
               <button
                 type="button"
                 className="footerLink"
-                onClick={() =>
-                  handleNavigation("how-it-works")
-                }
+                onClick={() => handleNavigation("how-it-works")}
               >
                 {t.footer.howItWorks}
               </button>
@@ -72,9 +67,7 @@ export default function Footer({ onNavigate }) {
               <button
                 type="button"
                 className="footerLink"
-                onClick={() =>
-                  handleNavigation("formats")
-                }
+                onClick={() => handleNavigation("formats")}
               >
                 {t.footer.formats}
               </button>
@@ -82,9 +75,7 @@ export default function Footer({ onNavigate }) {
               <button
                 type="button"
                 className="footerLink"
-                onClick={() =>
-                  handleNavigation("faq")
-                }
+                onClick={() => handleNavigation("faq")}
               >
                 {t.footer.faq}
               </button>
@@ -92,16 +83,12 @@ export default function Footer({ onNavigate }) {
 
             {/* LEGAL */}
             <div className="footerColumn">
-              <span className="footerColumnTitle">
-                {t.footer.legal}
-              </span>
+              <span className="footerColumnTitle">{t.footer.legal}</span>
 
               <button
                 type="button"
                 className="footerLink"
-                onClick={() =>
-                  handleNavigation("legal")
-                }
+                onClick={() => handleNavigation("legal")}
               >
                 {t.footer.terms}
               </button>
@@ -109,9 +96,7 @@ export default function Footer({ onNavigate }) {
               <button
                 type="button"
                 className="footerLink"
-                onClick={() =>
-                  handleNavigation("legal")
-                }
+                onClick={() => handleNavigation("legal")}
               >
                 {t.footer.privacy}
               </button>
@@ -119,9 +104,7 @@ export default function Footer({ onNavigate }) {
               <button
                 type="button"
                 className="footerLink"
-                onClick={() =>
-                  handleNavigation("legal")
-                }
+                onClick={() => handleNavigation("legal")}
               >
                 {t.footer.copyright}
               </button>
@@ -139,16 +122,12 @@ export default function Footer({ onNavigate }) {
         ========================= */}
         <div className="footerBottom">
           <p className="footerCopyright">
-            © {currentYear}{" "}
-            <strong>ClearAudio</strong>.{" "}
-            {t.footer.allRightsReserved ||
-              t.footer.copyright}
+            © {currentYear} <strong>ClearAudio</strong>.{" "}
+            {t.footer.allRightsReserved || t.footer.copyright}
           </p>
 
           <div className="footerSignature">
-            <span className="footerDevLabel">
-              {t.footer.developedBy}
-            </span>
+            <span className="footerDevLabel">{t.footer.developedBy}</span>
 
             <a
               href="https://muhammad-hashim-port.netlify.app/"
