@@ -488,7 +488,7 @@ export default function App() {
               <AudioWaveform size={21} strokeWidth={2.5} />
             </div>
 
-            <span className="brandName">ClearAudio</span>
+            <span className="brandName">HowToMp3</span>
           </button>
 
           {/* DESKTOP NAV */}

@@ -44,7 +44,7 @@ export default function Footer({ onNavigate }) {
                 <AudioWaveform size={20} strokeWidth={2.5} />
               </span>
 
-              <span className="footerBrandName">ClearAudio</span>
+              <span className="footerBrandName">HowToMp3</span>
             </button>
 
             <p className="footerDescription">{t.footer.description}</p>
