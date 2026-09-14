@@ -189,112 +189,133 @@ export default function App() {
   ========================= */
 
   const handleConvert = async () => {
-    const url = inputUrl.trim();
+  const url = inputUrl.trim();
 
-    if (!url) {
-      setErrorMessage(
-        t.converter?.validationRequired || "Please enter a YouTube URL.",
+  if (!url) {
+    setErrorMessage(
+      t.converter?.validationRequired || "Please enter a YouTube URL.",
+    );
+
+    setUiState("ERROR");
+    return;
+  }
+
+  if (!isValidYouTubeUrl(url)) {
+    setErrorMessage(
+      t.converter?.validationInvalid || "Please enter a valid YouTube URL.",
+    );
+
+    setUiState("ERROR");
+    return;
+  }
+
+  const videoId = extractYouTubeId(url);
+
+  if (!videoId) {
+    setErrorMessage(
+      t.converter?.validationInvalid ||
+        "Unable to extract the YouTube video ID.",
+    );
+
+    setUiState("ERROR");
+    return;
+  }
+
+  const rapidApiKey = import.meta.env.VITE_RAPIDAPI_KEY;
+
+  if (!rapidApiKey) {
+    setErrorMessage(
+      t.converter?.apiMissing ||
+        "RapidAPI key is missing. Please check your environment variables.",
+    );
+
+    setUiState("ERROR");
+    return;
+  }
+
+  setUiState("CONVERTING");
+  setErrorMessage("");
+  setDownloadPayload(null);
+
+  try {
+    const response = await axios.get(API_URL, {
+      params: {
+        id: videoId,
+      },
+      headers: {
+        "X-RapidAPI-Key": rapidApiKey,
+        "X-RapidAPI-Host": API_HOST,
+      },
+    });
+
+    const data = response?.data;
+
+    if (!data) {
+      throw new Error(
+        t.converter?.noResponse ||
+          "No response received from the conversion service.",
       );
-
-      setUiState("ERROR");
-      return;
     }
 
-    if (!isValidYouTubeUrl(url)) {
-      setErrorMessage(
-        t.converter?.validationInvalid || "Please enter a valid YouTube URL.",
+    if (data.status === "ERROR") {
+      throw new Error(
+        data.msg ||
+          t.converter?.apiUnable ||
+          "The conversion service could not process this video.",
       );
-
-      setUiState("ERROR");
-      return;
     }
 
-    const videoId = extractYouTubeId(url);
-
-    if (!videoId) {
-      setErrorMessage(
-        t.converter?.validationInvalid ||
-          "Unable to extract the YouTube video ID.",
+    if (!data.link) {
+      throw new Error(
+        data.msg ||
+          t.converter?.conversionFailed ||
+          "Conversion failed. Please try again.",
       );
-
-      setUiState("ERROR");
-      return;
     }
 
-    const rapidApiKey = import.meta.env.VITE_RAPIDAPI_KEY;
+    setDownloadPayload({
+      downloadUrl: data.link,
+      title:
+        data.title ||
+        t.converter?.fileFallback ||
+        "HowToMp3 MP3",
+    });
 
-    if (!rapidApiKey) {
+    setUiState("SUCCESS");
+  } catch (error) {
+    console.error("Conversion error:", error);
+
+    const fallbackMessage =
+      t.converter?.conversionFailed ||
+      "Conversion failed. Please try again.";
+
+    const apiMessage =
+      error?.response?.data?.msg ||
+      error?.response?.data?.message ||
+      error?.message ||
+      "";
+
+    const normalizedMessage = apiMessage.toLowerCase();
+
+    // Handle videos longer than 4 hours
+    const isDurationError =
+      normalizedMessage.includes("more than 4 hr") ||
+      normalizedMessage.includes("more than 4 hours") ||
+      (normalizedMessage.includes("duration") &&
+        normalizedMessage.includes("allowed"));
+
+    if (isDurationError) {
       setErrorMessage(
-        t.converter?.apiMissing ||
-          "RapidAPI key is missing. Please check your environment variables.",
+        t.converter?.durationLimit ||
+          "This video is longer than 4 hours. Please choose a video under 4 hours.",
       );
-
-      setUiState("ERROR");
-      return;
-    }
-
-    setUiState("CONVERTING");
-    setErrorMessage("");
-    setDownloadPayload(null);
-
-    try {
-      const response = await axios.get(API_URL, {
-        params: {
-          id: videoId,
-        },
-        headers: {
-          "X-RapidAPI-Key": rapidApiKey,
-          "X-RapidAPI-Host": API_HOST,
-        },
-      });
-
-      const data = response?.data;
-
-      if (!data) {
-        throw new Error(
-          t.converter?.noResponse ||
-            "No response received from the conversion service.",
-        );
-      }
-
-      if (data.status === "ERROR") {
-        throw new Error(
-          data.msg ||
-            t.converter?.apiUnable ||
-            "The conversion service could not process this video.",
-        );
-      }
-
-      if (!data.link) {
-        throw new Error(
-          data.msg ||
-            t.converter?.conversionFailed ||
-            "Conversion failed. Please try again.",
-        );
-      }
-
-      setDownloadPayload({
-        downloadUrl: data.link,
-        title: data.title || t.converter?.fileFallback || "ClearAudio MP3",
-      });
-
-      setUiState("SUCCESS");
-    } catch (error) {
-      console.error("Conversion error:", error);
-
-      const fallbackMessage =
-        t.converter?.conversionFailed || "Conversion failed. Please try again.";
-
-      const apiMessage =
-        error?.response?.data?.msg ||
-        error?.response?.data?.message ||
-        error?.message;
-
+    } else {
       setErrorMessage(apiMessage || fallbackMessage);
-
-      setUiState("ERROR");
     }
-  };
+
+    setUiState("ERROR");
+  }
+};
 
   /* =========================
      RESET
@@ -438,6 +459,7 @@ export default function App() {
       </main>
     );
   };
+  
 
   /* =========================
      PAGE ROUTING
