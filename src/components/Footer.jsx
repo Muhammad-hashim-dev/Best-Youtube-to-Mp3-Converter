@@ -130,7 +130,7 @@ export default function Footer({ onNavigate }) {
             <span className="footerDevLabel">{t.footer.developedBy}</span>
 
             <a
-              href="https://muhammad-hashim-port.netlify.app/"
+              href="https://muhammad-hashim-dev.vercel.app/"
               target="_blank"
               rel="noopener noreferrer"
               className="footerDeveloper"
